@@ -1,0 +1,20 @@
+const API_KEY='aad3fab1607b552befd9a2ac37e556af';const BASE_URL='https://api.themoviedb.org/3';const IMG_BASE_URL='https://image.tmdb.org/t/p/original';document.addEventListener('DOMContentLoaded',()=>{const urlParams=new URLSearchParams(window.location.search);const id=urlParams.get('id');const type=urlParams.get('type');const season=urlParams.get('season')||1;const episode=urlParams.get('episode')||1;if(id&&type){fetchDetails(id,type);fetchRelatedContent(id,type)}});function fetchDetails(id,type){const url=`${BASE_URL}/${type}/${id}?api_key=${API_KEY}&append_to_response=videos`;fetch(url).then(response=>response.json()).then(data=>displayDetails(data,type)).catch(error=>console.error('Error:',error))}
+function displayDetails(item,type){const backdropContainer=document.querySelector('.backdrop-container');const detailPoster=document.getElementById('detail-poster');const detailTitle=document.getElementById('detail-title');const detailMeta=document.getElementById('detail-meta');const detailOverview=document.getElementById('detail-overview');const watchTrailerBtn=document.getElementById('watch-trailer-btn');const backdropPath=item.backdrop_path?IMG_BASE_URL+item.backdrop_path:'';const posterPath=item.poster_path?IMG_BASE_URL+item.poster_path:'';const releaseDate=new Date(item.release_date||item.first_air_date);const formattedDate=releaseDate.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});backdropContainer.style.backgroundImage=`url(${backdropPath})`;detailPoster.src=posterPath;detailPoster.alt=item.title||item.name;detailTitle.textContent=item.title||item.name;detailMeta.innerHTML=`
+        <span>${formattedDate}</span> | 
+        <span>${type === 'movie' ? (item.runtime + ' min') : (item.episode_run_time[0] + ' min/episode')}</span> | 
+        <span>${item.genres.map(genre => genre.name).join(', ')}</span>
+    `;detailOverview.textContent=item.overview;watchTrailerBtn.style.display='block';watchTrailerBtn.onclick=()=>toggleTrailer(type,item.id)}
+function toggleTrailer(type,id){const trailerContainer=document.getElementById('trailer-container');let embedUrl;if(type==='movie'){embedUrl=`https://vidsrc.dev/embed/movie/${id}`}else{const season=1;const episode=1;embedUrl=`https://vidsrc.dev/embed/tv/${id}/${season}/${episode}`}
+if(trailerContainer.classList.contains('active')){trailerContainer.classList.remove('active');trailerContainer.innerHTML=''}else{trailerContainer.classList.add('active');trailerContainer.innerHTML=`
+            <iframe src="${embedUrl}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        `}}
+function fetchRelatedContent(id,type){const url=`${BASE_URL}/${type}/${id}/similar?api_key=${API_KEY}`;fetch(url).then(response=>response.json()).then(data=>displayRelatedContent(data.results.slice(0,10),type)).catch(error=>console.error('Error:',error))}
+function displayRelatedContent(results,type){const relatedGrid=document.getElementById('related-grid');relatedGrid.innerHTML='';results.forEach(item=>{const card=document.createElement('div');card.className='movie-card';const posterPath=item.poster_path?`${IMG_BASE_URL}/${item.poster_path}.webp`:'';const releaseDate=new Date(item.release_date||item.first_air_date);const formattedDate=releaseDate.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});const rating=Math.round(item.vote_average*10);card.innerHTML=`
+            <img class="movie-poster" src="${posterPath}" alt="${item.title || item.name}">
+            <div class="movie-info">
+                <h2 class="movie-title">${item.title || item.name}</h2>
+                <p class="movie-release-date">${formattedDate}</p>
+                <div class="movie-overview">${item.overview}</div>
+            </div>
+            <div class="movie-rating">${rating}%</div>
+        `;card.addEventListener('click',()=>{window.location.href=`detail.html?id=${item.id}&type=${type}`});relatedGrid.appendChild(card)})}
