@@ -7,14 +7,6 @@ body {
   background: #0f0c29; /* Fallback for old browsers */
   color: white; /* Text color for visibility */
 }
-canvas {
-  position: fixed; /* Fixed position for the canvas */
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 0;
-}
 header {
   position: relative;
   z-index: 1;
