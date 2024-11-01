@@ -1,21 +1,26 @@
-
 @import url("https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@400..800&display=swap");
 body {
+  margin: 0;
   font-family: "Baloo Bhai 2", sans-serif;
-  background: #0f0c29; /* fallback for old browsers */
-  background: -webkit-linear-gradient(
-    to right,
-    #24243e,
-    #302b63,
-    #0f0c29
-  ); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(
-    to right,
-    #24243e,
-    #302b63,
-    #0f0c29
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  position: relative;
+  overflow: auto; /* Allow scrolling */
+  background: #0f0c29; /* Fallback for old browsers */
+  color: white; /* Text color for visibility */
 }
+canvas {
+  position: fixed; /* Fixed position for the canvas */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+}
+header {
+  position: relative;
+  z-index: 1;
+  padding: 20px;
+}
+
 header {
   color: #fff;
 }
@@ -639,14 +644,18 @@ footer {
 }
 
 .trailer-container {
+  position: relative;
+  z-index: 1;
   max-width: 1300px;
   margin: 1rem 0 1rem 0;
   display: none;
 }
 .trailer-container.active {
+  z-index: 1;
   display: block;
 }
 .trailer-container iframe {
+  z-index: 2;
   width: 100%;
   height: 576px;
   border: none;
