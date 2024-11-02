@@ -1,15 +1,842 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"><meta name="description" content="Watch popular movies, top TV shows, and exclusive content online on JioStream. Explore thousands of titles across genres and enjoy seamless streaming anytime, anywhere."><title>JioStream - Watch Movies, TV Shows, and More Anytime, Anywhere</title><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><link rel="preconnect" href="https://api.themoviedb.org" crossorigin><link rel="preconnect" href="https://image.tmdb.org" crossorigin><style>body{margin:0;font-family:Georgia,"Times New Roman",Times,serif;position:relative;overflow:auto;background:#0f0c29;color:#fff}header{position:relative;color:#fff}.fixed-footer{position:fixed;bottom:0;left:0;width:100%;background-color:rgba(51,51,51,.7);color:#fff;text-align:center;padding:10px 0;backdrop-filter:blur(10px);box-shadow:0 -2px 5px rgba(0,0,0,.2);transition:background-color .3s;overflow:hidden}.fixed-footer:hover{background-color:rgba(51,51,51,.9)}.disclaimer{color:#ff0;font-size:1.2rem;display:inline-block;animation:scroll 10s linear infinite;white-space:nowrap}@keyframes scroll{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}#backToTopBtn{position:fixed;bottom:3rem;background-color:#000;padding:1rem;right:20px;height:50px;font-weight:700;color:#ff0;border:none;border-radius:30px;cursor:pointer;display:none;z-index:1000}nav{display:flex;justify-content:space-between;align-items:center;max-width:1300px;margin:0 auto}.logo a{margin-top:0;margin-bottom:0;padding:0;font-size:2em;text-decoration:none}.logo a,.logo a:hover{color:inherit}.nav-links{position:relative;display:flex;width:240px;padding:.5rem;border-radius:20px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.5);background:#222}.nav-links a{flex:1;color:#fff;text-decoration:none;display:flex;justify-content:center;align-items:center;height:100%;font-weight:700;transition:background-color .3s ease,transform .3s ease;position:relative;z-index:1}.indicator{position:absolute;width:50%;height:100%;background-color:#003283;border-radius:30px;transition:transform .3s ease;top:0;left:0;box-shadow:0 2px 10px rgba(0,0,0,.3);z-index:0}.search-container{display:flex;align-items:center;position:relative}#searchInput{font-weight:700;box-shadow:0 4px 20px rgba(0,0,0,.5);background:#222;color:#fff;padding:.7rem 1rem;border-radius:20px 0 0 20px;border:none;outline:0}#searchButton{font-weight:700;background-color:#003283;color:#fff;border:none;padding:.7rem 1rem;border-radius:0 20px 20px 0;cursor:pointer;transition:background-color .3s ease}.search-results{display:none;position:absolute;top:105%;left:0;right:0;background:hsla(0,0%,100%,.2);backdrop-filter:blur(2px) saturate(150%);border-radius:8px;box-shadow:inset 0 0 10px hsla(0,0%,100%,.3),0 4px 8px rgba(0,0,0,.2);border:1px solid hsla(0,0%,100%,.4);z-index:1000;max-height:400px;overflow-y:auto;padding:.5rem 0}.search-result-item{display:flex;align-items:center;padding:.5rem 1rem;cursor:pointer;transition:background-color .3s ease;border-bottom:1px solid hsla(0,0%,87.8%,.5)}.search-result-item:hover{background-color:hsla(0,0%,100%,.2)}.poster{width:50px;height:75px;border-radius:8px;margin-right:10px;object-fit:cover}.result-info{display:flex;flex-direction:column}.title{font-size:1rem;font-weight:700;color:#fff}.year{font-size:.9rem;color:#777}.search-results::-webkit-scrollbar{width:4px}.search-results::-webkit-scrollbar-thumb{background-color:rgba(0,0,0,.2);border-radius:3px}.search-results::-webkit-scrollbar-track{background:hsla(0,0%,100%,0)}.filter-navbar{display:flex;justify-content:center;padding:1rem;flex-wrap:wrap}.filter-select{margin:.5rem;padding:.5rem;border:none;border-radius:20px;box-shadow:0 4px 20px rgba(0,0,0,.5);background:#222;color:#fff;font-size:1rem;cursor:pointer;transition:background-color .3s ease}main{margin:auto;max-width:1300px;padding:1rem 0 0 1rem}.content-view{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:2rem}.movie-card{background-color:#fff;border-radius:8px;overflow:hidden;box-shadow:0 8px 16px rgba(0,0,0,.1);transition:transform .3s ease,box-shadow .3s ease;cursor:pointer;position:relative;width:100%;height:350px}.movie-card:hover{transform:scale(1.02);box-shadow:0 10px 20px rgba(0,0,0,.3);border:2px solid hsla(0,0%,100%,.3)}.movie-poster{width:100%;height:100%;object-fit:cover;transition:filter .3s ease;border-radius:8px}.movie-card:hover .movie-poster{filter:blur(3px) brightness(.6)}.movie-info{position:absolute;bottom:0;left:0;right:0;padding:1rem;color:#fff;background:linear-gradient(0deg,rgba(0,0,0,.8),transparent);transform:translateY(100%);transition:transform .4s ease,background .4s ease;text-align:center}.movie-card:hover .movie-info{transform:translateY(0)}.movie-title{font-size:1.5em;font-weight:700;color:#ff0;margin-bottom:.5rem}.movie-release-date{margin:0 0 .5rem;font-size:.9em}.movie-overview{font-size:.9em;line-height:1.4;display:-webkit-box;-webkit-line-clamp:3;line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}.movie-rating{position:absolute;top:10px;left:10px;background-color:rgba(3,37,65,.8);color:#ff0;padding:.3rem .6rem;border-radius:50px;font-weight:700}@media (max-width:768px){header{text-align:center}h1{margin:1rem}nav{flex-direction:column;align-items:stretch}.message-bar{position:fixed;bottom:20px;left:68%}.nav-links{margin:auto;justify-content:center}.search-container{justify-content:center;margin-top:1rem}.filter-navbar{flex-direction:column}.filter-select{width:100%;margin:.5rem 0}.content-view{display:flex;flex-direction:column;gap:1rem}main{padding:.5rem;margin:0;max-width:1300px}.movie-card{display:flex;height:150px}.movie-poster{border-radius:8px;width:100px;height:150px}.movie-info{padding-top:0;padding-bottom:0;margin:0;position:static;transform:none;background:#fff;color:#333;flex:1;display:flex;flex-direction:column}.movie-card:hover .movie-poster{filter:blur(1.5px) brightness(1)}.movie-title{text-align:start;font-size:1em;color:#032541}.movie-release-date{text-align:start;font-size:.8em;color:#666}.movie-overview{text-align:start;font-size:.8em;-webkit-line-clamp:3;line-clamp:3}.movie-rating{display:none}}</style></head><body><header><nav><div class="logo"><a href="index.html"><h1>JioStream</h1></a></div><div class="nav-links"><a href="#" id="movieToggle" class="active">Movies</a><a href="#" id="tvToggle">TV Shows</a><div class="indicator"></div></div><div class="search-container"><input aria-label="Search" id="searchInput" placeholder="First Choose Type......"> <button id="searchButton">Search</button><div class="search-results"></div></div></nav></header><div class="filter-navbar"><select class="filter-select" id="sortFilter"><option value="">Sort By</option></select> <select class="filter-select" id="genreFilter"><option value="">Genre</option></select> <select class="filter-select" id="yearFilter"><option value="">Year</option></select> <select class="filter-select" id="languageFilter"><option value="">Language</option></select></div><main><div class="content-wrapper"><div class="main-content"><div class="content-view" id="content-view"></div></div></div></main><footer class="fixed-footer"><div class="disclaimer">Disclaimer: We do not store any files on our servers; All the videos and data are hosted on third-party services. Please read and understand the terms and conditions.</div></footer><button id="backToTopBtn" onclick="scrollToTop()"><div class="icon-inner">Back to Top</div></button><script>const API_KEY="aad3fab1607b552befd9a2ac37e556af",BASE_URL="https://api.themoviedb.org/3",IMG_BASE_URL="https://image.tmdb.org/t/p/w500";let searchTimeout,currentType="movie",currentPage=1,currentSort="popularity.desc",currentGenre="",currentYear="",currentLanguage="",isLoading=!1;function fetchData(e=1){if(!isLoading){isLoading=!0,showLoading();const t=`${BASE_URL}/discover/${currentType}?api_key=${API_KEY}&page=${e}&sort_by=${currentSort}&with_genres=${currentGenre}&year=${currentYear}&with_original_language=${currentLanguage}`;fetch(t).then(e=>{if(!e.ok)throw new Error("Network response was not ok "+e.statusText);return e.json()}).then(t=>{displayResults(t.results,1===e),isLoading=!1,hideLoading()}).catch(e=>{console.error("Error:",e),isLoading=!1,hideLoading()})}}function displayResults(e,t=!0){const n=document.getElementById("content-view");n&&(t&&(n.innerHTML=""),e.forEach(e=>{const t=document.createElement("div");t.className="movie-card";const r=new Date(e.release_date||e.first_air_date).toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"}),a=Math.round(10*e.vote_average);t.innerHTML=`
-        <img class="movie-poster" src="${IMG_BASE_URL}${e.poster_path}" alt="${e.title||e.name}" loading="lazy">
-        <div class="movie-info">
-          <h2 class="movie-title">${e.title||e.name}</h2>
-          <p class="movie-release-date">${r}</p>
-          <div class="movie-overview">${e.overview}</div>
-        </div>
-        <div class="movie-rating">${a}%</div>
-      `,t.addEventListener("click",()=>navigateToDetail(e.id)),n.appendChild(t)}))}function navigateToDetail(e){window.location.href=`detail.html?id=${e}&type=${currentType}`}function search(e){if(e.length<3)return void hideSearchResults();const t=`${BASE_URL}/search/${currentType}?api_key=${API_KEY}&query=${encodeURIComponent(e)}`;fetch(t).then(e=>e.json()).then(e=>displaySearchResults(e.results)).catch(e=>console.error("Error:",e))}function displaySearchResults(e){const t=document.querySelector(".search-results"),n=document.querySelector("#searchInput");if(t.innerHTML="",n.value.trim()&&e.length>0){e.slice(0,5).forEach(e=>{const n=document.createElement("div");n.className="search-result-item";const r=new Date(e.release_date||e.first_air_date).getFullYear();n.innerHTML=`
-          <img src="${IMG_BASE_URL}${e.poster_path}" alt="${e.title||e.name}" class="poster">
-          <div class="result-info">
-            <h3 class="title">${e.title||e.name}</h3>
-            <span class="year">(${r})</span>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+  <meta name="description" content="Watch popular movies, top TV shows, and exclusive content online on JioStream. Explore thousands of titles across genres and enjoy seamless streaming anytime, anywhere." />
+  <title>JioStream - Watch Movies, TV Shows, and More Anytime, Anywhere</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <link rel="preconnect" href="https://api.themoviedb.org" crossorigin />
+  <link rel="preconnect" href="https://image.tmdb.org" crossorigin />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", Times, serif;
+      position: relative;
+      overflow: auto;
+      background: #0f0c29;
+      color: white;
+    }
+
+    header {
+      position: relative;
+      color: #fff;
+    }
+
+    .fixed-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: rgba(51, 51, 51, 0.7);
+      color: white;
+      text-align: center;
+      padding: 10px 0;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s;
+      overflow: hidden;
+    }
+
+    .fixed-footer:hover {
+      background-color: rgba(51, 51, 51, 0.9);
+    }
+
+    .disclaimer {
+      color: yellow;
+      font-size: 1.2rem;
+      display: inline-block;
+      animation: scroll 10s linear infinite;
+      white-space: nowrap;
+    }
+
+    @keyframes scroll {
+      0% {
+        transform: translateX(100%);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+
+    #backToTopBtn {
+      position: fixed;
+      bottom: 3rem;
+      right: 20px;
+      height: 50px;
+      padding: 1rem;
+      font-weight: bold;
+      color: yellow;
+      background-color: #000;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      display: none;
+      z-index: 1000;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    .logo a {
+      margin-top: 0;
+      margin-bottom: 0;
+      padding: 0;
+      font-size: 2em;
+      text-decoration: none;
+    }
+
+    .logo a,
+    .logo a:hover {
+      color: inherit;
+    }
+
+    .nav-links {
+      position: relative;
+      display: flex;
+      width: 240px;
+      padding: 0.5rem;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      background: #222;
+    }
+
+    .nav-links a {
+      flex: 1;
+      color: #fff;
+      text-decoration: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      font-weight: bold;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    .indicator {
+      position: absolute;
+      width: 50%;
+      height: 100%;
+      background-color: #003283;
+      border-radius: 30px;
+      transition: transform 0.3s ease;
+      top: 0;
+      left: 0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      z-index: 0;
+    }
+
+    .search-container {
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    #searchInput {
+      font-weight: bold;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      background: #222;
+      color: #fff;
+      padding: 0.7rem 1rem;
+      border-radius: 20px 0 0 20px;
+      border: none;
+      outline: none;
+    }
+
+    #searchButton {
+      font-weight: bold;
+      background-color: #003283;
+      color: #fff;
+      border: none;
+      padding: 0.7rem 1rem;
+      border-radius: 0 20px 20px 0;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .search-results {
+      display: none;
+      position: absolute;
+      top: 105%;
+      left: 0;
+      right: 0;
+      background: hsla(0, 0%, 100%, 0.2);
+      backdrop-filter: blur(2px) saturate(150%);
+      border-radius: 8px;
+      box-shadow: inset 0 0 10px hsla(0, 0%, 100%, 0.3),
+        0 4px 8px rgba(0, 0, 0, 0.2);
+      border: 1px solid hsla(0, 0%, 100%, 0.4);
+      z-index: 1000;
+      max-height: 400px;
+      overflow-y: auto;
+      padding: 0.5rem 0;
+    }
+
+    .search-result-item {
+      display: flex;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      border-bottom: 1px solid hsla(0, 0%, 87.8%, 0.5);
+    }
+
+    .search-result-item:hover {
+      background-color: hsla(0, 0%, 100%, 0.2);
+    }
+
+    .poster {
+      width: 50px;
+      height: 75px;
+      border-radius: 8px;
+      margin-right: 10px;
+      object-fit: cover;
+    }
+
+    .result-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .year {
+      font-size: 0.9rem;
+      color: #777;
+    }
+
+    .search-results::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .search-results::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: 3px;
+    }
+
+    .search-results::-webkit-scrollbar-track {
+      background: hsla(0, 0%, 100%, 0);
+    }
+
+    .filter-navbar {
+      display: flex;
+      justify-content: center;
+      padding: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-select {
+      margin: 0.5rem;
+      padding: 0.5rem;
+      border: none;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      background: #222;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    main {
+      margin: auto;
+      max-width: 1300px;
+      padding: 1rem 0 0 1rem;
+    }
+
+    .content-view {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 2rem;
+    }
+
+    .movie-card {
+      background-color: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      position: relative;
+      width: 100%;
+      height: 350px;
+    }
+
+    .movie-card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+      border: 2px solid hsla(0, 0%, 100%, 0.3);
+    }
+
+    .movie-poster {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: filter 0.3s ease;
+      border-radius: 8px;
+    }
+
+    .movie-card:hover .movie-poster {
+      filter: blur(3px) brightness(0.6);
+    }
+
+    .movie-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1rem;
+      color: #fff;
+      background: linear-gradient(0deg, rgba(0, 0, 0, 0.8), transparent);
+      transform: translateY(100%);
+      transition: transform 0.4s ease, background 0.4s ease;
+      text-align: center;
+    }
+
+    .movie-card:hover .movie-info {
+      transform: translateY(0);
+    }
+
+    .movie-title {
+      font-size: 1.5em;
+      font-weight: 700;
+      color: #ff0;
+      margin-bottom: 0.5rem;
+    }
+
+    .movie-release-date {
+      margin: 0 0 0.5rem;
+      font-size: 0.9em;
+    }
+
+    .movie-overview {
+      font-size: 0.9em;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .movie-rating {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: rgba(3, 37, 65, 0.8);
+      color: #ff0;
+      padding: 0.3rem 0.6rem;
+      border-radius: 50px;
+      font-weight: 700;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        text-align: center;
+      }
+      h1 {
+        margin: 1rem;
+      }
+      nav {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .message-bar {
+        position: fixed;
+        bottom: 20px;
+        left: 68%;
+      }
+      .nav-links {
+        margin: auto;
+        justify-content: center;
+      }
+      .search-container {
+        justify-content: center;
+        margin-top: 1rem;
+      }
+      .filter-navbar {
+        flex-direction: column;
+      }
+      .filter-select {
+        width: 100%;
+        margin: 0.5rem 0;
+      }
+      .content-view {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      main {
+        padding: 0.5rem;
+        margin: 0;
+        max-width: 1300px;
+      }
+      .movie-card {
+        display: flex;
+        height: 150px;
+      }
+      .movie-poster {
+        border-radius: 8px;
+        width: 100px;
+        height: 150px;
+      }
+      .movie-info {
+        padding-top: 0;
+        padding-bottom: 0;
+        margin: 0;
+        position: static;
+        transform: none;
+        background: #fff;
+        color: #333;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      .movie-card:hover .movie-poster {
+        filter: blur(1.5px) brightness(1);
+      }
+      .movie-title {
+        text-align: start;
+        font-size: 1em;
+        color: #032541;
+      }
+      .movie-release-date {
+        text-align: start;
+        font-size: 0.8em;
+        color: #666;
+      }
+      .movie-overview {
+        text-align: start;
+        font-size: 0.8em;
+        -webkit-line-clamp: 3;
+        line-clamp: 3;
+      }
+      .movie-rating {
+        display: none;
+      }
+    }
+
+    #loadingIndicator, #errorMessage {
+      text-align: center;
+      padding: 1rem;
+      font-size: 1.2rem;
+    }
+
+    #errorMessage {
+      color: red;
+    }
+
+    #loadMoreBtn {
+      display: block;
+      margin: 2rem auto;
+      padding: 0.5rem 1rem;
+      background-color: #003283;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #loadMoreBtn:hover {
+      background-color: #002266;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">
+        <a href="index.html">
+          <h1>JioStream</h1>
+        </a>
+      </div>
+      <div class="nav-links">
+        <a href="#" id="movieToggle" class="active">Movies</a>
+        <a href="#" id="tvToggle">TV Shows</a>
+        <div class="indicator"></div>
+      </div>
+      <div class="search-container">
+        <input aria-label="Search" id="searchInput" placeholder="First Choose Type......" />
+        <button id="searchButton">Search</button>
+        <div class="search-results"></div>
+      </div>
+    </nav>
+  </header>
+  <div class="filter-navbar">
+    <select class="filter-select" id="sortFilter">
+      <option value="">Sort By</option>
+    </select>
+    <select class="filter-select" id="genreFilter">
+      <option value="">Genre</option>
+    </select>
+    <select class="filter-select" id="yearFilter">
+      <option value="">Year</option>
+    </select>
+    <select class="filter-select" id="languageFilter">
+      <option  value="">Language</option>
+    </select>
+  </div>
+  <main>
+    <div class="content-wrapper">
+      <div id="loadingIndicator" style="display: none;">Loading...</div>
+      <div id="errorMessage" style="display: none;"></div>
+      <div class="main-content">
+        <div class="content-view" id="content-view"></div>
+      </div>
+    </div>
+    <button id="loadMoreBtn" style="display: none;">Load More</button>
+  </main>
+  <footer class="fixed-footer">
+    <div class="disclaimer">
+      Disclaimer: We do not store any files on our servers; All the videos and
+      data are hosted on third-party services. Please read and understand the
+      terms and conditions.
+    </div>
+  </footer>
+  <button id="backToTopBtn" onclick="scrollToTop()">
+    <div class="icon-inner">Back to Top</div>
+  </button>
+  <script>
+    const API_KEY = "aad3fab1607b552befd9a2ac37e556af";
+    const BASE_URL = "https://api.themoviedb.org/3";
+    const IMG_BASE_URL = "https://image.tmdb.org/t/p/w500";
+    let searchTimeout;
+    let currentType = "movie";
+    let currentPage = 1;
+    let currentSort = "popularity.desc";
+    let currentGenre = "";
+    let currentYear = "";
+    let currentLanguage = "";
+    let isLoading = false;
+    let hasMoreContent = true;
+  
+    async function fetchData(page = 1) {
+      if (isLoading || !hasMoreContent) return;
+      
+      isLoading = true;
+      showLoading();
+      
+      const url = `${BASE_URL}/discover/${currentType}?api_key=${API_KEY}&page=${page}&sort_by=${currentSort}&with_genres=${currentGenre}&year=${currentYear}&with_original_language=${currentLanguage}`;
+  
+      try {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error("Network response was not ok " + response.statusText);
+        }
+        const data = await response.json();
+        displayResults(data.results, page === 1);
+        hasMoreContent = data.page < data.total_pages;
+        currentPage = data.page;
+      } catch (error) {
+        console.error("Error:", error);
+        showError("Failed to fetch data. Please try again later.");
+      } finally {
+        isLoading = false;
+        hideLoading();
+      }
+    }
+  
+    function displayResults(results, clear = true) {
+      const contentView = document.getElementById("content-view");
+      if (!contentView) return;
+  
+      if (clear) {
+        contentView.innerHTML = "";
+      }
+  
+      results.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "movie-card";
+        const releaseDate = new Date(item.release_date || item.first_air_date).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric"
+        });
+        const rating = Math.round(item.vote_average * 10);
+        card.innerHTML = `
+          <img class="movie-poster" src="${IMG_BASE_URL}${item.poster_path}" alt="${item.title || item.name}" loading="lazy">
+          <div class="movie-info">
+            <h2 class="movie-title">${item.title || item.name}</h2>
+            <p class="movie-release-date">${releaseDate}</p>
+            <div class="movie-overview">${item.overview}</div>
           </div>
-        `,n.addEventListener("click",()=>navigateToDetail(e.id)),t.appendChild(n)}),t.style.display="block"}else t.style.display="none"}function hideSearchResults(){document.querySelector(".search-results").style.display="none"}function fetchGenres(){fetch(`${BASE_URL}/genre/${currentType}/list?api_key=${API_KEY}`).then(e=>e.json()).then(e=>populateGenreFilter(e.genres)).catch(e=>console.error("Error:",e))}function populateGenreFilter(e){const t=document.getElementById("genreFilter");t&&(t.innerHTML='<option value="">Genre</option>',e.forEach(e=>{const n=document.createElement("option");n.value=e.id,n.textContent=e.name,t.appendChild(n)}))}function fetchSortOptions(){const e=document.getElementById("sortFilter");e&&[{value:"popularity.desc",label:"Popularity Descending"},{value:"popularity.asc",label:"Popularity Ascending"},{value:"vote_average.desc",label:"Rating Descending"},{value:"vote_average.asc",label:"Rating Ascending"},{value:"release_date.desc",label:"Release Date Descending"},{value:"release_date.asc",label:"Release Date Ascending"}].forEach(t=>{const n=document.createElement("option");n.value=t.value,n.textContent=t.label,e.appendChild(n)})}function fetchLanguages(){fetch(`${BASE_URL}/configuration/languages?api_key=${API_KEY}`).then(e=>e.json()).then(e=>populateLanguageFilter(e)).catch(e=>console.error("Error:",e))}function populateLanguageFilter(e){const  t=document.getElementById("languageFilter");t&&(e.sort((e,t)=>e.english_name.localeCompare(t.english_name)),t.innerHTML='<option value="">Language</option>',e.forEach(e=>{const n=document.createElement("option");n.value=e.iso_639_1,n.textContent=e.english_name,t.appendChild(n)}))}function populateYearFilter(){const e=document.getElementById("yearFilter");if(e){const t=(new Date).getFullYear();for(let n=t;n>=1900;n--){const t=document.createElement("option");t.value=n,t.textContent=n,e.appendChild(t)}}}function handleScroll(){window.innerHeight+window.scrollY>=document.body.offsetHeight-500&&!isLoading&&(currentPage++,fetchData(currentPage))}function setActiveToggle(){const e=document.getElementById("movieToggle"),t=document.getElementById("tvToggle"),n=document.querySelector(".indicator");"movie"===currentType?(e.classList.add("active"),t.classList.remove("active"),n.style.transform="translateX(0)"):(e.classList.remove("active"),t.classList.add("active"),n.style.transform="translateX(100%)")}function scrollToTop(){window.scrollTo({top:0,behavior:"smooth"})}function showLoading(){}function hideLoading(){}document.addEventListener("DOMContentLoaded",()=>{const e=document.getElementById("searchInput"),t=document.getElementById("searchButton"),n=document.getElementById("sortFilter"),r=document.getElementById("genreFilter"),a=document.getElementById("yearFilter"),o=document.getElementById("languageFilter"),i=document.getElementById("movieToggle"),c=document.getElementById("tvToggle");e&&t&&(e.addEventListener("input",e=>{clearTimeout(searchTimeout),searchTimeout=setTimeout(()=>search(e.target.value),300)}),t.addEventListener("click",()=>search(e.value)),document.addEventListener("click",e=>{e.target.closest(".search-container")||hideSearchResults()})),n&&n.addEventListener("change",e=>{currentSort=e.target.value,currentPage=1,fetchData()}),r&&r.addEventListener("change",e=>{currentGenre=e.target.value,currentPage=1,fetchData()}),a&&a.addEventListener("change",e=>{currentYear=e.target.value,currentPage=1,fetchData()}),o&&o.addEventListener("change",e=>{currentLanguage=e.target.value,currentPage=1,fetchData()}),i&&c&&(i.addEventListener("click",e=>{e.preventDefault(),currentType="movie",currentPage=1,setActiveToggle(),fetchGenres(),fetchData()}),c.addEventListener("click",e=>{e.preventDefault(),currentType="tv",currentPage=1,setActiveToggle(),fetchGenres(),fetchData()})),setActiveToggle(),fetchSortOptions(),fetchGenres(),fetchLanguages(),populateYearFilter(),fetchData(),window.addEventListener("scroll",handleScroll)}),window.onscroll=function(){const e=document.getElementById("backToTopBtn");document.body.scrollTop>300||document.documentElement.scrollTop>300?e.style.display="block":e.style.display="none"}</script></body></html>
+          <div class="movie-rating">${rating}%</div>
+        `;
+        card.addEventListener("click", () => navigateToDetail(item.id));
+        contentView.appendChild(card);
+      });
+    }
+  
+    function convertToWebP(originalSrc) {
+      return originalSrc.replace(/\.(jpg|jpeg|png)$/, '.webp');
+    }
+  
+    function navigateToDetail(id) {
+      window.location.href = `detail.html?id=${id}&type=${currentType}`;
+    }
+  
+    function showLoading() {
+      document.getElementById('loadingIndicator').style.display = 'block';
+    }
+  
+    function hideLoading() {
+      document.getElementById('loadingIndicator').style.display = 'none';
+    }
+  
+    function showError(message) {
+      const errorElement = document.getElementById('errorMessage');
+      errorElement.textContent = message;
+      errorElement.style.display = 'block';
+    }
+  
+    function hideError() {
+      document.getElementById('errorMessage').style.display = 'none';
+    }
+  
+    async function search(query) {
+      if (!query) return;
+  
+      showLoading();
+      hideError();
+  
+      try {
+        const response = await fetch(`${BASE_URL}/search/${currentType}?api_key=${API_KEY}&query=${encodeURIComponent(query)}`);
+        if (!response.ok) {
+          throw new Error("Network response was not ok " + response.statusText);
+        }
+        const data = await response.json();
+        displayResults(data.results, true);
+        hasMoreContent = data.page < data.total_pages;
+        currentPage = data.page;
+      } catch (error) {
+        console.error("Error:", error);
+        showError("Failed to perform search. Please try again later.");
+      } finally {
+        hideLoading();
+      }
+    }
+  
+    function hideSearchResults() {
+      const searchResults = document.querySelector(".search-results");
+      if (searchResults) {
+        searchResults.innerHTML = "";
+      }
+    }
+  
+    async function fetchSortOptions() {
+      const sortFilter = document.getElementById("sortFilter");
+      if (!sortFilter) return;
+  
+      const sortOptions = [
+        { value: "popularity.desc", label: "Popularity Descending" },
+        { value: "popularity.asc", label: "Popularity Ascending" },
+        { value: "vote_average.desc", label: "Rating Descending" },
+        { value: "vote_average.asc", label: "Rating Ascending" },
+        { value: "primary_release_date.desc", label: "Release Date Descending" },
+        { value: "primary_release_date.asc", label: "Release Date Ascending" },
+      ];
+  
+      sortOptions.forEach(option => {
+        const optionElement = document.createElement("option");
+        optionElement.value = option.value;
+        optionElement.textContent = option.label;
+        sortFilter.appendChild(optionElement);
+      });
+    }
+  
+    async function fetchGenres() {
+      const genreFilter = document.getElementById("genreFilter");
+      if (!genreFilter) return;
+  
+      try {
+        const response = await fetch(`${BASE_URL}/genre/${currentType}/list?api_key=${API_KEY}`);
+        if (!response.ok) {
+          throw new Error("Network response was not ok " + response.statusText);
+        }
+        const data = await response.json();
+        genreFilter.innerHTML = '<option value="">Genre</option>';
+        data.genres.forEach(genre => {
+          const option = document.createElement("option");
+          option.value = genre.id;
+          option.textContent = genre.name;
+          genreFilter.appendChild(option);
+        });
+      } catch (error) {
+        console.error("Error fetching genres:", error);
+      }
+    }
+  
+    function populateYearFilter() {
+      const yearFilter = document.getElementById("yearFilter");
+      if (!yearFilter) return;
+  
+      const currentYear = new Date().getFullYear();
+      for (let year = currentYear; year >= 1900; year--) {
+        const option = document.createElement("option");
+        option.value = year;
+        option.textContent = year;
+        yearFilter.appendChild(option);
+      }
+    }
+  
+    async function fetchLanguages() {
+      const languageFilter = document.getElementById("languageFilter");
+      if (!languageFilter) return;
+  
+      try {
+        const response = await fetch(`${BASE_URL}/configuration/languages?api_key=${API_KEY}`);
+        if (!response.ok) {
+          throw new Error("Network response was not ok " + response.statusText);
+        }
+        const languages = await response.json();
+        languageFilter.innerHTML = '<option value="">Language</option>';
+        languages.forEach(language => {
+          const option = document.createElement("option");
+          option.value = language.iso_639_1;
+          option.textContent = language.english_name;
+          languageFilter.appendChild(option);
+        });
+      } catch (error) {
+        console.error("Error fetching languages:", error);
+      }
+    }
+  
+    function setActiveToggle() {
+      const movieToggle = document.getElementById("movieToggle");
+      const tvToggle = document.getElementById("tvToggle");
+      if (movieToggle && tvToggle) {
+        movieToggle.classList.toggle("active", currentType === "movie");
+        tvToggle.classList.toggle("active", currentType === "tv");
+      }
+    }
+  
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+  
+    function handleScroll() {
+      const scrollPosition = window.innerHeight + window.scrollY;
+      const bodyHeight = document.body.offsetHeight;
+      const scrollThreshold = bodyHeight - 200; // Load more content when user is 200px from bottom
+  
+      if (scrollPosition >= scrollThreshold && !isLoading && hasMoreContent) {
+        fetchData(currentPage + 1);
+      }
+  
+      const backToTopBtn = document.getElementById("backToTopBtn");
+      if (window.scrollY > 300) {
+        backToTopBtn.style.display = "block";
+      } else {
+        backToTopBtn.style.display = "none";
+      }
+    }
+  
+    document.addEventListener("DOMContentLoaded", () => {
+      const searchInput = document.getElementById("searchInput");
+      const searchButton = document.getElementById("searchButton");
+      const sortFilter = document.getElementById("sortFilter");
+      const genreFilter = document.getElementById("genreFilter");
+      const yearFilter = document.getElementById("yearFilter");
+      const languageFilter = document.getElementById("languageFilter");
+      const movieToggle = document.getElementById("movieToggle");
+      const tvToggle = document.getElementById("tvToggle");
+  
+      if (searchInput && searchButton) {
+        searchInput.addEventListener("input", event => {
+          clearTimeout(searchTimeout);
+          searchTimeout = setTimeout(() => search(event.target.value), 300);
+        });
+        searchButton.addEventListener("click", () => search(searchInput.value));
+        document.addEventListener("click", event => {
+          if (!event.target.closest(".search-container")) {
+            hideSearchResults();
+          }
+        });
+      }
+  
+      if (sortFilter) {
+        sortFilter.addEventListener("change", event => {
+          currentSort = event.target.value;
+          currentPage = 1;
+          hasMoreContent = true;
+          fetchData();
+        });
+      }
+  
+      if (genreFilter) {
+        genreFilter.addEventListener("change", event => {
+          currentGenre = event.target.value;
+          currentPage = 1;
+          hasMoreContent = true;
+          fetchData();
+        });
+      }
+  
+      if (yearFilter) {
+        yearFilter.addEventListener("change", event => {
+          currentYear = event.target.value;
+          currentPage = 1;
+          hasMoreContent = true;
+          fetchData();
+        });
+      }
+  
+      if (languageFilter) {
+        languageFilter.addEventListener("change", event => {
+          currentLanguage = event.target.value;
+          currentPage = 1;
+          hasMoreContent = true;
+          fetchData();
+        });
+      }
+  
+      if (movieToggle && tvToggle) {
+        movieToggle.addEventListener("click", event => {
+          event.preventDefault();
+          currentType = "movie";
+          currentPage = 1;
+          hasMoreContent = true;
+          setActiveToggle();
+          fetchGenres();
+          fetchData();
+        });
+  
+        tvToggle.addEventListener("click", event => {
+          event.preventDefault();
+          currentType = "tv";
+          currentPage = 1;
+          hasMoreContent = true;
+          setActiveToggle();
+          fetchGenres();
+          fetchData();
+        });
+      }
+  
+      setActiveToggle();
+      fetchSortOptions();
+      fetchGenres();
+      fetchLanguages();
+      populateYearFilter();
+      fetchData();
+  
+      window.addEventListener('scroll', handleScroll);
+    });
+  </script>
+</body>
+</html>
