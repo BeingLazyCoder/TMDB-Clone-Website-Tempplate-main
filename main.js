@@ -84,7 +84,17 @@ function hideError() {
     const errorMessage = document.getElementById("errorMessage");
     errorMessage.style.display = "none";
 }
-
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+function handleScroll() {
+  const e = document.getElementById("backToTopBtn");
+  window.innerHeight + window.scrollY >= document.body.offsetHeight - 200 &&
+    !isLoading &&
+    hasMoreContent &&
+    fetchData(currentPage + 1),
+    (e.style.display = window.scrollY > 300 ? "block" : "none");
+}
 async function search(query) {
     if (!query) return hideSearchResults();
 
