@@ -1,1 +1,280 @@
-let searchTimeout,currentType="movie",currentPage=1,currentSort="popularity.desc",currentGenre="",currentYear="",currentLanguage="",isLoading=!1,hasMoreContent=!0;async function fetchData(e=1){if(isLoading||!hasMoreContent)return;isLoading=!0,showLoading();const t=`https://api.themoviedb.org/3/discover/${currentType}?api_key=aad3fab1607b552befd9a2ac37e556af&page=${e}&sort_by=${currentSort}&with_genres=${currentGenre}&year=${currentYear}&with_original_language=${currentLanguage}`;try{const n=await fetch(t);if(!n.ok)throw new Error("Network response was not ok "+n.statusText);const a=await n.json();displayResults(a.results,1===e),hasMoreContent=a.page<a.total_pages,currentPage=a.page}catch(e){console.error("Error:",e),showError("Failed to fetch data. Please try again later.")}finally{isLoading=!1,hideLoading()}}function displayResults(e,t=!0){const n=document.getElementById("content-view");n&&(t&&(n.innerHTML=""),e.forEach((e=>{const t=document.createElement("div");t.className="movie-card";const a=new Date(e.release_date||e.first_air_date).toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"}),o=e.vote_average.toFixed(1);t.innerHTML=`\n                <img class="movie-poster" src="https://image.tmdb.org/t/p/w185${e.poster_path}" alt="${e.title||e.name}">\n                <div class="movie-info">\n                    <h2 class="movie-title">${e.title||e.name}</h2>\n                    <p class="movie-release-date">${a}</p>\n                    <div class="movie-overview">${e.overview}</div>\n                </div>\n                <div class="movie-rating"><span style="margin-left: 5px;">${o}</span></div>\n            `,t.addEventListener("click",(()=>navigateToDetail(e.id))),n.appendChild(t)})))}function convertToWebP(e){return e.replace(/\.(jpg|jpeg|png)$/,".webp")}function navigateToDetail(e){window.location.href=`detail.html?id=${e}&type=${currentType}`}function showLoading(){document.getElementById("loadingIndicator").style.display="block"}function hideLoading(){document.getElementById("loadingIndicator").style.display="none"}function showError(e){const t=document.getElementById("errorMessage");t.textContent=e,t.style.display="block"}function hideError(){document.getElementById("errorMessage").style.display="none"}async function search(e){if(e){showLoading(),hideError();try{const t=await fetch(`https://api.themoviedb.org/3/search/${currentType}?api_key=aad3fab1607b552befd9a2ac37e556af&query=${encodeURIComponent(e)}`);if(!t.ok)throw new Error("Network response was not ok "+t.statusText);const n=await t.json();displaySearchResults(n.results),hasMoreContent=n.page<n.total_pages,currentPage=n.page}catch(e){console.error("Error:",e),showError("Not Found")}finally{hideLoading()}}else hideSearchResults()}function displaySearchResults(e){const t=document.querySelector(".search-results");t.innerHTML="",e.length>0?(e.forEach((e=>{const n=document.createElement("div");n.className="search-result-item",n.onclick=()=>navigateToDetail(e.id),n.innerHTML=`\n                <img src="https://image.tmdb.org/t/p/w185${e.poster_path}" class="poster" alt="${e.title||e.name}" />\n                <div class="result-info">\n                    <span class="title">${e.title||e.name}</span>\n                    <span class="year">${new Date(e.release_date||e.first_air_date).getFullYear()}</span>\n                </div>\n            `,t.appendChild(n)})),t.style.display="block"):t.style.display="none"}function hideSearchResults(){const e=document.querySelector(".search-results");e&&(e.innerHTML="",e.style.display="none")}async function fetchSortOptions(){const e=document.getElementById("sortFilter");if(!e)return;[{value:"popularity.desc",label:"Popularity Descending"},{value:"popularity.asc",label:"Popularity Ascending"},{value:"vote_average.desc",label:"Rating Descending"},{value:"vote_average.asc",label:"Rating Ascending"},{value:"primary_release_date.desc",label:"Release Date Descending"},{value:"primary_release_date.asc",label:"Release Date Ascending"}].forEach((t=>{const n=document.createElement("option");n.value=t.value,n.textContent=t.label,e.appendChild(n)}))}async function fetchGenres(){const e=document.getElementById("genreFilter");if(e)try{const t=await fetch(`https://api.themoviedb.org/3/genre/${currentType}/list?api_key=aad3fab1607b552befd9a2ac37e556af`);if(!t.ok)throw new Error("Network response was not ok "+t.statusText);const n=await t.json();e.innerHTML='<option value="">Genre</option>',n.genres.forEach((t=>{const n=document.createElement("option");n.value=t.id,n.textContent=t.name,e.appendChild(n)}))}catch(e){console.error("Error fetching genres:",e)}}function populateYearFilter(){const e=document.getElementById("yearFilter");if(e)for(let t=(new Date).getFullYear();t>=1900;t--){const n=document.createElement("option");n.value=t,n.textContent=t,e.appendChild(n)}}async function fetchLanguages(){const e=document.getElementById("languageFilter");if(e)try{const t=await fetch("https://api.themoviedb.org/3/configuration/languages?api_key=aad3fab1607b552befd9a2ac37e556af");if(!t.ok)throw new Error("Network response was not ok "+t.statusText);const n=await t.json();e.innerHTML='<option value="">Language</option>',n.forEach((t=>{const n=document.createElement("option");n.value=t.iso_639_1,n.textContent=t.english_name,e.appendChild(n)}))}catch(e){console.error("Error fetching languages:",e)}}function setActiveToggle(){const e=document.getElementById("movieToggle"),t=document.getElementById("tvToggle"),n=document.querySelector(".indicator");"movie"===currentType?(e.classList.add("active"),t.classList.remove("active"),n.style.transform="translateX(0)"):(e.classList.remove("active"),t.classList.add("active"),n.style.transform="translateX(100%)")}function scrollToTop(){window.scrollTo({top:0,behavior:"smooth"})}function handleScroll(){const e=document.getElementById("backToTopBtn");window.innerHeight+window.scrollY>=document.body.offsetHeight-200&&!isLoading&&hasMoreContent&&fetchData(currentPage+1),e.style.display=window.scrollY>300?"block":"none"}document.addEventListener("click",(e=>{e.target.closest(".search-container")||hideSearchResults()})),document.addEventListener("DOMContentLoaded",(()=>{const e=document.getElementById("searchInput"),t=document.getElementById("searchButton"),n=document.getElementById("sortFilter"),a=document.getElementById("genreFilter"),o=document.getElementById("yearFilter"),r=document.getElementById("languageFilter"),s=document.getElementById("movieToggle"),c=document.getElementById("tvToggle");e&&t&&(e.addEventListener("input",(e=>{clearTimeout(searchTimeout),searchTimeout=setTimeout((()=>search(e.target.value)),300)})),t.addEventListener("click",(()=>search(e.value)))),n&&n.addEventListener("change",(e=>{currentSort=e.target.value,currentPage=1,hasMoreContent=!0,fetchData()})),a&&a.addEventListener("change",(e=>{currentGenre=e.target.value,currentPage=1,hasMoreContent=!0,fetchData()})),o&&o.addEventListener("change",(e=>{currentYear=e.target.value,currentPage=1,hasMoreContent=!0,fetchData()})),r&&r.addEventListener("change",(e=>{currentLanguage=e.target.value,currentPage=1,hasMoreContent=!0,fetchData()})),s&&c&&(s.addEventListener("click",(e=>{e.preventDefault(),currentType="movie",currentPage=1,hasMoreContent=!0,setActiveToggle(),fetchGenres(),fetchData()})),c.addEventListener("click",(e=>{e.preventDefault(),currentType="tv",currentPage=1,hasMoreContent=!0,setActiveToggle(),fetchGenres(),fetchData()}))),setActiveToggle(),fetchSortOptions(),fetchGenres(),fetchLanguages(),populateYearFilter(),fetchData(),window.addEventListener("scroll",handleScroll)}));document.addEventListener("DOMContentLoaded",(function(){"querySelector"in document?document.querySelector("main").style.display="block":alert("Please update your browser for the best experience.")}));
+let searchTimeout,
+  currentType = "movie",
+  currentPage = 1,
+  currentSort = "popularity.desc",
+  currentGenre = "",
+  currentYear = "",
+  currentLanguage = "",
+  isLoading = !1,
+  hasMoreContent = !0;
+  const API_BASE_URL = '/api';
+async function fetchData(e = 1) {
+  if (isLoading || !hasMoreContent) return;
+  (isLoading = !0), showLoading();
+  const t = `${API_BASE_URL}/discover/${currentType}?page=${page}&sort_by=${currentSort}&with_genres=${currentGenre}&year=${currentYear}&with_original_language=${currentLanguage}`;
+  try {
+    const n = await fetch(t);
+    if (!n.ok) throw new Error("Network response was not ok " + n.statusText);
+    const a = await n.json();
+    displayResults(a.results, 1 === e),
+      (hasMoreContent = a.page < a.total_pages),
+      (currentPage = a.page);
+  } catch (e) {
+    console.error("Error:", e),
+      showError("Failed to fetch data. Please try again later.");
+  } finally {
+    (isLoading = !1), hideLoading();
+  }
+}
+function displayResults(e, t = !0) {
+  const n = document.getElementById("content-view");
+  n &&
+    (t && (n.innerHTML = ""),
+    e.forEach((e) => {
+      const t = document.createElement("div");
+      t.className = "movie-card";
+      const a = new Date(e.release_date || e.first_air_date).toLocaleDateString(
+          "en-US",
+          { year: "numeric", month: "long", day: "numeric" }
+        ),
+        o = e.vote_average.toFixed(1);
+      (t.innerHTML = `\n                <img class="movie-poster" src="https://image.tmdb.org/t/p/w185${
+        e.poster_path
+      }" alt="${
+        e.title || e.name
+      }">\n                <div class="movie-info">\n                    <h2 class="movie-title">${
+        e.title || e.name
+      }</h2>\n                    <p class="movie-release-date">${a}</p>\n                    <div class="movie-overview">${
+        e.overview
+      }</div>\n                </div>\n                <div class="movie-rating"><span style="margin-left: 5px;">${o}</span></div>\n            `),
+        t.addEventListener("click", () => navigateToDetail(e.id)),
+        n.appendChild(t);
+    }));
+}
+function navigateToDetail(e) {
+  window.location.href = `detail.html?id=${e}&type=${currentType}`;
+}
+function showLoading() {
+  document.getElementById("loadingIndicator").style.display = "block";
+}
+function hideLoading() {
+  document.getElementById("loadingIndicator").style.display = "none";
+}
+function showError(e) {
+  const t = document.getElementById("errorMessage");
+  (t.textContent = e), (t.style.display = "block");
+}
+function hideError() {
+  document.getElementById("errorMessage").style.display = "none";
+}
+async function search(e) {
+  if (e) {
+    showLoading(), hideError();
+    try {
+      const t = await fetch(
+        `https://api.themoviedb.org/3/search/${currentType}?api_key=aad3fab1607b552befd9a2ac37e556af&query=${encodeURIComponent(
+          e
+        )}`
+      );
+      if (!t.ok) throw new Error("Network response was not ok " + t.statusText);
+      const n = await t.json();
+      displaySearchResults(n.results),
+        (hasMoreContent = n.page < n.total_pages),
+        (currentPage = n.page);
+    } catch (e) {
+      console.error("Error:", e), showError("Not Found");
+    } finally {
+      hideLoading();
+    }
+  } else hideSearchResults();
+}
+function displaySearchResults(e) {
+  const t = document.querySelector(".search-results");
+  (t.innerHTML = ""),
+    e.length > 0
+      ? (e.forEach((e) => {
+          const n = document.createElement("div");
+          (n.className = "search-result-item"),
+            (n.onclick = () => navigateToDetail(e.id)),
+            (n.innerHTML = `\n                <img src="https://image.tmdb.org/t/p/w185${
+              e.poster_path
+            }" class="poster" alt="${
+              e.title || e.name
+            }" />\n                <div class="result-info">\n                    <span class="title">${
+              e.title || e.name
+            }</span>\n                    <span class="year">${new Date(
+              e.release_date || e.first_air_date
+            ).getFullYear()}</span>\n                </div>\n            `),
+            t.appendChild(n);
+        }),
+        (t.style.display = "block"))
+      : (t.style.display = "none");
+}
+function hideSearchResults() {
+  const e = document.querySelector(".search-results");
+  e && ((e.innerHTML = ""), (e.style.display = "none"));
+}
+async function fetchSortOptions() {
+  const e = document.getElementById("sortFilter");
+  if (!e) return;
+  [
+    { value: "popularity.desc", label: "Popularity Descending" },
+    { value: "popularity.asc", label: "Popularity Ascending" },
+    { value: "vote_average.desc", label: "Rating Descending" },
+    { value: "vote_average.asc", label: "Rating Ascending" },
+    { value: "primary_release_date.desc", label: "Release Date Descending" },
+    { value: "primary_release_date.asc", label: "Release Date Ascending" },
+  ].forEach((t) => {
+    const n = document.createElement("option");
+    (n.value = t.value), (n.textContent = t.label), e.appendChild(n);
+  });
+}
+async function fetchGenres() {
+  const e = document.getElementById("genreFilter");
+  if (e)
+    try {
+      const t = await fetch(
+        `https://api.themoviedb.org/3/genre/${currentType}/list?api_key=aad3fab1607b552befd9a2ac37e556af`
+      );
+      if (!t.ok) throw new Error("Network response was not ok " + t.statusText);
+      const n = await t.json();
+      (e.innerHTML = '<option value="">Genre</option>'),
+        n.genres.forEach((t) => {
+          const n = document.createElement("option");
+          (n.value = t.id), (n.textContent = t.name), e.appendChild(n);
+        });
+    } catch (e) {
+      console.error("Error fetching genres:", e);
+    }
+}
+function populateYearFilter() {
+  const e = document.getElementById("yearFilter");
+  if (e)
+    for (let t = new Date().getFullYear(); t >= 1900; t--) {
+      const n = document.createElement("option");
+      (n.value = t), (n.textContent = t), e.appendChild(n);
+    }
+}
+async function fetchLanguages() {
+  const e = document.getElementById("languageFilter");
+  if (e)
+    try {
+      const t = await fetch(
+        "https://api.themoviedb.org/3/configuration/languages?api_key=aad3fab1607b552befd9a2ac37e556af"
+      );
+      if (!t.ok) throw new Error("Network response was not ok " + t.statusText);
+      const n = await t.json();
+      (e.innerHTML = '<option value="">Language</option>'),
+        n.forEach((t) => {
+          const n = document.createElement("option");
+          (n.value = t.iso_639_1),
+            (n.textContent = t.english_name),
+            e.appendChild(n);
+        });
+    } catch (e) {
+      console.error("Error fetching languages:", e);
+    }
+}
+function setActiveToggle() {
+  const e = document.getElementById("movieToggle"),
+    t = document.getElementById("tvToggle"),
+    n = document.querySelector(".indicator");
+  "movie" === currentType
+    ? (e.classList.add("active"),
+      t.classList.remove("active"),
+      (n.style.transform = "translateX(0)"))
+    : (e.classList.remove("active"),
+      t.classList.add("active"),
+      (n.style.transform = "translateX(100%)"));
+}
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+function handleScroll() {
+  const e = document.getElementById("backToTopBtn");
+  window.innerHeight + window.scrollY >= document.body.offsetHeight - 200 &&
+    !isLoading &&
+    hasMoreContent &&
+    fetchData(currentPage + 1),
+    (e.style.display = window.scrollY > 300 ? "block" : "none");
+}
+document.addEventListener("click", (e) => {
+  e.target.closest(".search-container") || hideSearchResults();
+}),
+  document.addEventListener("DOMContentLoaded", () => {
+    const e = document.getElementById("searchInput"),
+      t = document.getElementById("searchButton"),
+      n = document.getElementById("sortFilter"),
+      a = document.getElementById("genreFilter"),
+      o = document.getElementById("yearFilter"),
+      r = document.getElementById("languageFilter"),
+      s = document.getElementById("movieToggle"),
+      c = document.getElementById("tvToggle");
+    e &&
+      t &&
+      (e.addEventListener("input", (e) => {
+        clearTimeout(searchTimeout),
+          (searchTimeout = setTimeout(() => search(e.target.value), 300));
+      }),
+      t.addEventListener("click", () => search(e.value))),
+      n &&
+        n.addEventListener("change", (e) => {
+          (currentSort = e.target.value),
+            (currentPage = 1),
+            (hasMoreContent = !0),
+            fetchData();
+        }),
+      a &&
+        a.addEventListener("change", (e) => {
+          (currentGenre = e.target.value),
+            (currentPage = 1),
+            (hasMoreContent = !0),
+            fetchData();
+        }),
+      o &&
+        o.addEventListener("change", (e) => {
+          (currentYear = e.target.value),
+            (currentPage = 1),
+            (hasMoreContent = !0),
+            fetchData();
+        }),
+      r &&
+        r.addEventListener("change", (e) => {
+          (currentLanguage = e.target.value),
+            (currentPage = 1),
+            (hasMoreContent = !0),
+            fetchData();
+        }),
+      s &&
+        c &&
+        (s.addEventListener("click", (e) => {
+          e.preventDefault(),
+            (currentType = "movie"),
+            (currentPage = 1),
+            (hasMoreContent = !0),
+            setActiveToggle(),
+            fetchGenres(),
+            fetchData();
+        }),
+        c.addEventListener("click", (e) => {
+          e.preventDefault(),
+            (currentType = "tv"),
+            (currentPage = 1),
+            (hasMoreContent = !0),
+            setActiveToggle(),
+            fetchGenres(),
+            fetchData();
+        })),
+      setActiveToggle(),
+      fetchSortOptions(),
+      fetchGenres(),
+      fetchLanguages(),
+      populateYearFilter(),
+      fetchData(),
+      window.addEventListener("scroll", handleScroll);
+  });
+document.addEventListener("DOMContentLoaded", function () {
+  "querySelector" in document
+    ? (document.querySelector("main").style.display = "block")
+    : alert("Please update your browser for the best experience.");
+});
