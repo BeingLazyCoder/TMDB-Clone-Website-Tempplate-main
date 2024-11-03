@@ -1,54 +1,8 @@
-const API_KEY = "aad3fab1607b552befd9a2ac37e556af";
-const BASE_URL = "https://api.themoviedb.org/3";
-const IMG_BASE_URL = "https://image.tmdb.org/t/p/w200";
-
-let searchTimeout;
-let currentType = "movie",
-    currentPage = 1,
-    currentSort = "popularity.desc",
-    currentGenre = "",
-    currentYear = "",
-    currentLanguage = "",
-    isLoading = false,
-    hasMoreContent = true;
-
-async function fetchData(pageIncrement = 0) {
-    if (isLoading || !hasMoreContent) return;
-    isLoading = true;
-    showLoading();
-
-    const url = `${BASE_URL}/discover/${currentType}?api_key=${API_KEY}&page=${currentPage + pageIncrement}&sort_by=${currentSort}&with_genres=${currentGenre}&year=${currentYear}&with_original_language=${currentLanguage}`;
-
-    try {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error(`Network response was not ok: ${response.statusText}`);
-        const data = await response.json();
-        displayResults(data.results, pageIncrement === 0);
-        hasMoreContent = data.page < data.total_pages;
-        currentPage = data.page;
-    } catch (error) {
-        console.error("Error:", error);
-        showError("Failed to fetch data. Please try again later.");
-    } finally {
-        isLoading = false;
-        hideLoading();
-    }
-}
-
-function displayResults(results, clear = true) {
-    const contentView = document.getElementById("content-view");
-    if (!contentView) return;
-
-    if (clear) {
-        contentView.innerHTML = "";
-    }
-
-    results.forEach(result => {
-        const card = document.createElement("div");
-        card.className = "movie-card";
-        const releaseDate = new Date(result.release_date || result.first_air_date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
-        const rating = result.vote_average.toFixed(1);
-        card.innerHTML = `
+const API_KEY="aad3fab1607b552befd9a2ac37e556af";const BASE_URL="https://api.themoviedb.org/3";const IMG_BASE_URL="https://image.tmdb.org/t/p/w500";let searchTimeout;let currentType="movie",currentPage=1,currentSort="popularity.desc",currentGenre="",currentYear="",currentLanguage="",isLoading=!1,hasMoreContent=!0;async function fetchData(pageIncrement=0){if(isLoading||!hasMoreContent)return;isLoading=!0;showLoading();const url=`${BASE_URL}/discover/${currentType}?api_key=${API_KEY}&page=${currentPage + pageIncrement}&sort_by=${currentSort}&with_genres=${currentGenre}&year=${currentYear}&with_original_language=${currentLanguage}`;try{const response=await fetch(url);if(!response.ok)throw new Error(`Network response was not ok: ${response.statusText}`);const data=await response.json();displayResults(data.results,pageIncrement===0);hasMoreContent=data.page<data.total_pages;currentPage=data.page}catch(error){console.error("Error:",error);showError("Failed to fetch data. Please try again later.")}finally{isLoading=!1;hideLoading()}}
+function scrollToTop(){window.scrollTo({top:0,behavior:"smooth"})}
+function handleScroll(){const e=document.getElementById("backToTopBtn");window.innerHeight+window.scrollY>=document.body.offsetHeight-200&&!isLoading&&hasMoreContent&&fetchData(currentPage+1),(e.style.display=window.scrollY>300?"block":"none")}
+function displayResults(results,clear=!0){const contentView=document.getElementById("content-view");if(!contentView)return;if(clear){contentView.innerHTML=""}
+results.forEach(result=>{const card=document.createElement("div");card.className="movie-card";const releaseDate=new Date(result.release_date||result.first_air_date).toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"});const rating=result.vote_average.toFixed(1);card.innerHTML=`
             <img class="movie-poster" src="${IMG_BASE_URL}${result.poster_path}" alt="${result.title || result.name}">
             <div class="movie-info">
                 <h2 class="movie-title">${result.title || result.name}</h2>
@@ -56,262 +10,26 @@ function displayResults(results, clear = true) {
                 <div class="movie-overview">${result.overview}</div>
             </div>
             <div class="movie-rating"><span>${rating}</span></div>
-        `;
-        card.addEventListener("click", () => navigateToDetail(result.id));
-        contentView.appendChild(card);
-    });
-}
-
-function navigateToDetail(id) {
-    window.location.href = `detail.html?id=${id}&type=${currentType}`;
-}
-
-function showLoading() {
-    document.getElementById("loadingIndicator").style.display = "block";
-}
-
-function hideLoading() {
-    document.getElementById("loadingIndicator").style.display = "none";
-}
-
-function showError(message) {
-    const errorMessage = document.getElementById("errorMessage");
-    errorMessage.textContent = message;
-    errorMessage.style.display = "block";
-}
-
-function hideError() {
-    const errorMessage = document.getElementById("errorMessage");
-    errorMessage.style.display = "none";
-}
-function scrollToTop() {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-function handleScroll() {
-  const e = document.getElementById("backToTopBtn");
-  window.innerHeight + window.scrollY >= document.body.offsetHeight - 200 &&
-    !isLoading &&
-    hasMoreContent &&
-    fetchData(currentPage + 1),
-    (e.style.display = window.scrollY > 300 ? "block" : "none");
-}
-async function search(query) {
-    if (!query) return hideSearchResults();
-
-    showLoading();
-    hideError();
-    try {
-        const response = await fetch(`${BASE_URL}/search/${currentType}?api_key=${API_KEY}&query=${encodeURIComponent(query)}`);
-        if (!response.ok) throw new Error("Network response was not ok " + response.statusText);
-        const data = await response.json();
-        displaySearchResults(data.results);
-        hasMoreContent = data.page < data.total_pages;
-        currentPage = data.page;
-    } catch (error) {
-        console.error("Error:", error);
-        showError("Not Found");
-    } finally {
-        hideLoading();
-    }
-}
-
-function displaySearchResults(results) {
-    const searchResultsContainer = document.querySelector(".search-results");
-    searchResultsContainer.innerHTML = "";
-    if (results.length > 0) {
-        results.forEach(result => {
-            const item = document.createElement("div");
-            item.className = "search-result-item";
-            item.onclick = () => navigateToDetail(result.id);
-            item.innerHTML = `
+        `;card.addEventListener("click",()=>navigateToDetail(result.id));contentView.appendChild(card)})}
+function navigateToDetail(id){window.location.href=`detail.html?id=${id}&type=${currentType}`}
+function showLoading(){document.getElementById("loadingIndicator").style.display="block"}
+function hideLoading(){document.getElementById("loadingIndicator").style.display="none"}
+function showError(message){const errorMessage=document.getElementById("errorMessage");errorMessage.textContent=message;errorMessage.style.display="block"}
+function hideError(){const errorMessage=document.getElementById("errorMessage");errorMessage.style.display="none"}
+async function search(query){if(!query)return hideSearchResults();showLoading();hideError();try{const response=await fetch(`${BASE_URL}/search/${currentType}?api_key=${API_KEY}&query=${encodeURIComponent(query)}`);if(!response.ok)throw new Error("Network response was not ok "+response.statusText);const data=await response.json();displaySearchResults(data.results);hasMoreContent=data.page<data.total_pages;currentPage=data.page}catch(error){console.error("Error:",error);showError("Not Found")}finally{hideLoading()}}
+function displaySearchResults(results){const searchResultsContainer=document.querySelector(".search-results");searchResultsContainer.innerHTML="";if(results.length>0){results.forEach(result=>{const item=document.createElement("div");item.className="search-result-item";item.onclick=()=>navigateToDetail(result.id);item.innerHTML=`
                 <img src="${IMG_BASE_URL}${result.poster_path}" class="poster" alt="${result.title || result.name}" />
                 <div class="result-info">
                     <span class="title">${result.title || result.name}</span>
                     <span class="year">${new Date(result.release_date || result.first_air_date).getFullYear()}</span>
                 </div>
-            `;
-            searchResultsContainer.appendChild(item);
-        });
-        searchResultsContainer.style.display = "block";
-    } else {
-        searchResultsContainer.style.display = "none";
-    }
-}
-
-function hideSearchResults() {
-    const searchResultsContainer = document.querySelector(".search-results");
-    if (searchResultsContainer) {
-        searchResultsContainer.innerHTML = "";
-        searchResultsContainer.style.display = "none";
-    }
-}
-
-function handleScroll() {
-    const backToTopBtn = document.getElementById("backToTopBtn");
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200 && !isLoading && hasMoreContent) {
-        fetchData(1);
-    }
-    backToTopBtn.style.display = window.scrollY > 300 ? "block" : "none";
-}
-
-function setActiveToggle() {
-    const movieToggle = document.getElementById("movieToggle");
-    const tvToggle = document.getElementById("tvToggle");
-    const indicator = document.querySelector(".indicator");
-
-    if (currentType === "movie") {
-        movieToggle.classList.add("active");
-        tvToggle.classList.remove("active");
-        indicator.style.transform = "translateX(0)";
-    } else {
-        movieToggle.classList.remove("active");
-        tvToggle.classList.add("active");
-        indicator.style.transform = "translateX(100%)";
-    }
-}
-
-async function fetchGenres() {
-    const genreFilter = document.getElementById("genreFilter");
-    if (genreFilter) {
-        try {
-            const response = await fetch(`${BASE_URL}/genre/${currentType}/list?api_key=${API_KEY}`);
-            if (!response.ok) throw new Error("Network response was not ok " + response.statusText);
-            const data = await response.json();
-            genreFilter.innerHTML = '<option value="">Genre</option>';
-            data.genres.forEach(genre => {
-                const option = document.createElement("option");
-                option.value = genre.id;
-                option.textContent = genre.name;
-                genreFilter.appendChild(option);
-            });
-        } catch (error) {
-            console.error("Error fetching genres:", error);
-        }
-    }
-}
-
-async function fetchSortOptions() {
-    const sortFilter = document.getElementById("sortFilter");
-    if (sortFilter) {
-        [
-            { value: "popularity.desc", label: "Popularity Descending" },
-            { value: "popularity.asc", label: "Popularity Ascending" },
-            { value: "vote_average.desc", label: "Rating Descending" },
-            { value: "vote_average.asc", label: "Rating Ascending" },
-            { value: "primary_release_date.desc", label: "Release Date Descending" },
-            { value: "primary_release_date.asc", label: "Release Date Ascending" },
-        ].forEach(option => {
-            const selectOption = document.createElement("option");
-            selectOption.value = option.value;
-            selectOption.textContent = option.label;
-            sortFilter.appendChild(selectOption);
-        });
-    }
-}
-
-function populateYearFilter() {
-    const yearFilter = document.getElementById("yearFilter");
-    if (yearFilter) {
-        for (let year = new Date().getFullYear(); year >= 1900; year--) {
-            const option = document.createElement("option");
-            option.value = year;
-            option.textContent = year;
-            yearFilter.appendChild(option);
-        }
-    }
-}
-
-async function fetchLanguages() {
-    const languageFilter = document.getElementById("languageFilter");
-    if (languageFilter) {
-        try {
-            const response = await fetch(`https://api.themoviedb.org/3/configuration/languages?api_key=${API_KEY}`);
-            if (!response.ok) throw new Error("Network response was not ok " + response.statusText);
-            const data = await response.json();
-            languageFilter.innerHTML = '<option value="">Language</option>';
-            data.forEach(language => {
-                const option = document.createElement("option");
-                option.value = language.iso_639_1;
-                option.textContent = language.english_name;
-                languageFilter.appendChild(option);
-            });
-        } catch (error) {
-            console.error("Error fetching languages:", error);
-        }
-    }
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-    const searchInput = document.getElementById("searchInput");
-    const searchButton = document.getElementById("searchButton");
-    const sortFilter = document.getElementById("sortFilter");
-    const genreFilter = document.getElementById("genreFilter");
-    const yearFilter = document.getElementById("yearFilter");
-    const languageFilter = document.getElementById("languageFilter");
-    const movieToggle = document.getElementById("movieToggle");
-    const tvToggle = document.getElementById("tvToggle");
-
-    searchInput.addEventListener("input", (e) => {
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(() => search(e.target.value), 300);
-    });
-
-    searchButton.addEventListener("click", () => search(searchInput.value));
-
-    sortFilter.addEventListener("change", (e) => {
-        currentSort = e.target.value;
-        currentPage = 1;
-        hasMoreContent = true;
-        fetchData();
-    });
-
-    genreFilter.addEventListener("change", (e) => {
-        currentGenre = e.target.value;
-        currentPage = 1;
-        hasMoreContent = true;
-        fetchData();
-    });
-
-    yearFilter.addEventListener("change", (e) => {
-        currentYear = e.target.value;
-        currentPage = 1;
-        hasMoreContent = true;
-        fetchData();
-    });
-
-    languageFilter.addEventListener("change", (e) => {
-        currentLanguage = e.target.value;
-        currentPage = 1;
-        hasMoreContent = true;
-        fetchData();
-    });
-
-    movieToggle.addEventListener("click", (e) => {
-        e.preventDefault();
-        currentType = "movie";
-        currentPage = 1;
-        hasMoreContent = true;
-        setActiveToggle();
-        fetchGenres();
-        fetchData();
-    });
-
-    tvToggle.addEventListener("click", (e) => {
-        e.preventDefault();
-        currentType = "tv";
-        currentPage = 1;
-        hasMoreContent = true;
-        setActiveToggle();
-        fetchGenres();
-        fetchData();
-    });
-
-    setActiveToggle();
-    fetchSortOptions();
-    fetchGenres();
-    fetchLanguages();
-    populateYearFilter();
-    fetchData();
-
-    window.addEventListener("scroll", handleScroll);
-});
+            `;searchResultsContainer.appendChild(item)});searchResultsContainer.style.display="block"}else{searchResultsContainer.style.display="none"}}
+function hideSearchResults(){const searchResultsContainer=document.querySelector(".search-results");if(searchResultsContainer){searchResultsContainer.innerHTML="";searchResultsContainer.style.display="none"}}
+function handleScroll(){const backToTopBtn=document.getElementById("backToTopBtn");if(window.innerHeight+window.scrollY>=document.body.offsetHeight-200&&!isLoading&&hasMoreContent){fetchData(1)}
+backToTopBtn.style.display=window.scrollY>300?"block":"none"}
+function setActiveToggle(){const movieToggle=document.getElementById("movieToggle");const tvToggle=document.getElementById("tvToggle");const indicator=document.querySelector(".indicator");if(currentType==="movie"){movieToggle.classList.add("active");tvToggle.classList.remove("active");indicator.style.transform="translateX(0)"}else{movieToggle.classList.remove("active");tvToggle.classList.add("active");indicator.style.transform="translateX(100%)"}}
+async function fetchGenres(){const genreFilter=document.getElementById("genreFilter");if(genreFilter){try{const response=await fetch(`${BASE_URL}/genre/${currentType}/list?api_key=${API_KEY}`);if(!response.ok)throw new Error("Network response was not ok "+response.statusText);const data=await response.json();genreFilter.innerHTML='<option value="">Genre</option>';data.genres.forEach(genre=>{const option=document.createElement("option");option.value=genre.id;option.textContent=genre.name;genreFilter.appendChild(option)})}catch(error){console.error("Error fetching genres:",error)}}}
+async function fetchSortOptions(){const sortFilter=document.getElementById("sortFilter");if(sortFilter){[{value:"popularity.desc",label:"Popularity Descending"},{value:"popularity.asc",label:"Popularity Ascending"},{value:"vote_average.desc",label:"Rating Descending"},{value:"vote_average.asc",label:"Rating Ascending"},{value:"primary_release_date.desc",label:"Release Date Descending"},{value:"primary_release_date.asc",label:"Release Date Ascending"},].forEach(option=>{const selectOption=document.createElement("option");selectOption.value=option.value;selectOption.textContent=option.label;sortFilter.appendChild(selectOption)})}}
+function populateYearFilter(){const yearFilter=document.getElementById("yearFilter");if(yearFilter){for(let year=new Date().getFullYear();year>=1900;year--){const option=document.createElement("option");option.value=year;option.textContent=year;yearFilter.appendChild(option)}}}
+async function fetchLanguages(){const languageFilter=document.getElementById("languageFilter");if(languageFilter){try{const response=await fetch(`https://api.themoviedb.org/3/configuration/languages?api_key=${API_KEY}`);if(!response.ok)throw new Error("Network response was not ok "+response.statusText);const data=await response.json();languageFilter.innerHTML='<option value="">Language</option>';data.forEach(language=>{const option=document.createElement("option");option.value=language.iso_639_1;option.textContent=language.english_name;languageFilter.appendChild(option)})}catch(error){console.error("Error fetching languages:",error)}}}
+document.addEventListener("DOMContentLoaded",()=>{const searchInput=document.getElementById("searchInput");const searchButton=document.getElementById("searchButton");const sortFilter=document.getElementById("sortFilter");const genreFilter=document.getElementById("genreFilter");const yearFilter=document.getElementById("yearFilter");const languageFilter=document.getElementById("languageFilter");const movieToggle=document.getElementById("movieToggle");const tvToggle=document.getElementById("tvToggle");searchInput.addEventListener("input",(e)=>{clearTimeout(searchTimeout);searchTimeout=setTimeout(()=>search(e.target.value),300)});searchButton.addEventListener("click",()=>search(searchInput.value));sortFilter.addEventListener("change",(e)=>{currentSort=e.target.value;currentPage=1;hasMoreContent=!0;fetchData()});genreFilter.addEventListener("change",(e)=>{currentGenre=e.target.value;currentPage=1;hasMoreContent=!0;fetchData()});yearFilter.addEventListener("change",(e)=>{currentYear=e.target.value;currentPage=1;hasMoreContent=!0;fetchData()});languageFilter.addEventListener("change",(e)=>{currentLanguage=e.target.value;currentPage=1;hasMoreContent=!0;fetchData()});movieToggle.addEventListener("click",(e)=>{e.preventDefault();currentType="movie";currentPage=1;hasMoreContent=!0;setActiveToggle();fetchGenres();fetchData()});tvToggle.addEventListener("click",(e)=>{e.preventDefault();currentType="tv";currentPage=1;hasMoreContent=!0;setActiveToggle();fetchGenres();fetchData()});setActiveToggle();fetchSortOptions();fetchGenres();fetchLanguages();populateYearFilter();fetchData();window.addEventListener("scroll",handleScroll)})
