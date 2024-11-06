@@ -1,1 +1,184 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Watch popular movies, top TV shows, and exclusive content online on JioStream. Explore thousands of titles across genres and enjoy seamless streaming anytime, anywhere."><title>JioStream - Watch Movies, TV Shows, and More Anytime, Anywhere</title><link rel="preconnect" href="https://api.themoviedb.org" crossorigin><link rel="preconnect" href="https://image.tmdb.org/t/p/original" crossorigin><link rel="preconnect" href="main.css" crossorigin><link rel="stylesheet" href="main.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"></head><body><header><nav><div class="logo"><a href="index.html">JioStream</a></div><div class="nav-links"><a href="index.html" class="active">Back To Home</a></div></nav></header><main><div id="loadingIndicator" style="display:none">Loading...</div><div id="errorMessage" style="display:none"></div><div class="detail-content" id="detail-content"><div class="detail-info"><img alt="Poster" class="detail-poster" id="detail-poster" loading="lazy" src=""><div class="detail-text"><h1 class="detail-title" id="detail-title"></h1><div class="detail-meta" id="detail-meta"></div><p class="detail-overview" id="detail-overview"></p></div></div><div class="button-container"><button class="watch-trailer-btn" id="watch-trailer-btn" class="active"><i class="fa-solid fa-play" style="color:#fff"></i>Multi Lang.</button><button class="watch-trailer-btn" id="watch-trailer-btn2"><i class="fa-solid fa-play" style="color:#fff"></i>Beta</button><button class="watch-trailer-btn" id="watch-trailer-btn3"><i class="fa-solid fa-play" style="color:#fff"></i>Hulu</button><button class="watch-trailer-btn" id="watch-trailer-btn4"><i class="fa-solid fa-play" style="color:#fff"></i>Stream</button><button class="watch-trailer-btn" id="watch-trailer-btn5"><i class="fa-solid fa-play" style="color:#fff"></i>Alpha</button><button class="watch-trailer-btn" id="watch-trailer-btn6"><i class="fa-solid fa-play" style="color:#fff"></i>GDrive</button></div></div></main><div class="trailer-container" id="trailer-container"></div><div class="trailer-container" id="trailer-container2"></div><div class="trailer-container" id="trailer-container3"></div><div class="trailer-container" id="trailer-container4"></div><div class="trailer-container" id="trailer-container5"></div><div class="trailer-container" id="trailer-container6"></div><div class="related-content" id="related-content"><h1>Related Content</h1><div class="content-view" id="related-grid"></div></div><footer class="fixed-footer"><div class="disclaimer">Disclaimer: We do not store any files on our servers; All the videos and data are hosted on third-party services.</div></footer><script src="detail.js" defer="defer"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Watch popular movies, top TV shows, and exclusive content online on JioStream. Explore thousands of titles across genres and enjoy seamless streaming anytime, anywhere."
+    />
+    <title>
+      JioStream - Watch Movies, TV Shows, and More Anytime, Anywhere
+    </title>
+    <link rel="preconnect" href="https://api.themoviedb.org" crossorigin />
+    <link rel="preconnect" href="https://image.tmdb.org/t/p/" crossorigin />
+    <link rel="stylesheet" href="detail.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0-beta3/css/all.min.css"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="logo">
+          <a href="index.html">JioStream</a>
+        </div>
+        <div class="nav-links">
+          <a href="index.html" class="active">Back To Home</a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="main1">
+      <div id="loadingIndicator" style="display: none">Loading...</div>
+      <div id="errorMessage" style="display: none"></div>
+      <div class="detail-content" id="detail-content">
+        <div class="detail-info">
+          <img
+            alt="Poster"
+            class="detail-poster"
+            id="detail-poster"
+            loading="lazy"
+            src=""
+          />
+          <div class="detail-text">
+            <h1 class="detail-title" id="detail-title"></h1>
+            <div class="detail-meta" id="detail-meta"></div>
+            <p class="detail-language" id="detail-language"></p>
+            <p class="detail-type" id="detail-type"></p>
+            <p class="detail-runtime" id="detail-runtime"></p>
+            <p class="detail-genres" id="detail-genres"></p>
+            <p class="detail-ratings" id="detail-ratings"></p>
+            <p class="detail-popularity" id="detail-popularity"></p>
+            <p class="detail-budget" id="detail-budget"></p>
+            <p class="detail-revenue" id="detail-revenue"></p>
+            <p class="detail-cast" id="detail-cast"></p>
+            <p
+              class="detail-production-companies"
+              id="detail-production-companies"
+            ></p>
+            <p class="detail-overview" id="detail-overview"></p>
+          </div>
+        </div>
+      </div>
+        <div class="trailer-section">
+        <!-- Dropdown Menu -->
+        <div class="filter-navbar">
+          <div class="filter-box">
+            <label for="dropdown-menu">Select Provider</label>
+            <select class="filter-select" id="dropdown-menu">
+              <option
+                class="watch-trailer-option active"
+                value="Vidsrc 4K"
+                id="watch-trailer-btn"
+              >
+                <i class="fa-solid fa-play"></i>Multi Language
+              </option>
+              <option
+                class="watch-trailer-option"
+                value="HnEmbed"
+                id="watch-trailer-btn2"
+              >
+                <i class="fa-solid fa-play"></i> G-Drive
+              </option>
+              <option
+                class="watch-trailer-option"
+                value="MultiEmbed"
+                id="watch-trailer-btn3"
+              >
+                <i class="fa-solid fa-play"></i> Multi Embed
+              </option>
+              <option
+                class="watch-trailer-option"
+                value="VidLink"
+                id="watch-trailer-btn4"
+              >
+                <i class="fa-solid fa-play"></i> HD Server - Ads
+              </option>
+              <option
+                class="watch-trailer-option"
+                value="EmbedSoap"
+                id="watch-trailer-btn5"
+              >
+                <i class="fa-solid fa-play"></i> EmbedSoap -Ads
+              </option>
+              <option
+                class="watch-trailer-option"
+                value="AutoEmbed"
+                id="watch-trailer-btn6"
+              >
+                <i class="fa-solid fa-play"></i> Auto Embed
+              </option>
+              <option
+                class="watch-trailer-option"
+                value="Smashy Stream"
+                id="watch-trailer-btn7"
+              >
+                <i class="fa-solid fa-play"></i> Smashy Stream
+              </option>
+              <option
+                class="watch-trailer-option"
+                value="Embed.su"
+                id="watch-trailer-btn8"
+              >
+                <i class="fa-solid fa-play"></i> Best UI - Ads
+              </option>
+              <option
+                class="watch-trailer-option"
+                value="DirectStream"
+                id="watch-trailer-btn9"
+              >
+                <i class="fa-solid fa-play"></i> Multi Server
+              </option>
+              <option
+                class="watch-trailer-option"
+                value="Moviee"
+                id="watch-trailer-btn10"
+              >
+                <i class="fa-solid fa-play"></i> CloudStream Pro
+              </option>
+              <option
+                class="watch-trailer-option"
+                value="MovieApi"
+                id="watch-trailer-btn11"
+              >
+                <i class="fa-solid fa-play"></i> Multi Lang - Ads
+              </option>
+            </select>
+          </div>
+        </div>
+      
+      
+      
+      <div class="trailer-container" id="trailer-container"></div>
+      <div class="trailer-container" id="trailer-container2"></div>
+      <div class="trailer-container" id="trailer-container3"></div>
+      <div class="trailer-container" id="trailer-container4"></div>
+      <div class="trailer-container" id="trailer-container5"></div>
+      <div class="trailer-container" id="trailer-container6"></div>
+      <div class="trailer-container" id="trailer-container7"></div>
+      <div class="trailer-container" id="trailer-container8"></div>
+      <div class="trailer-container" id="trailer-container9"></div>
+      <div class="trailer-container" id="trailer-container10"></div>
+      <div class="trailer-container" id="trailer-container11"></div>
+      </div>
+    </main>
+    
+
+    <div class="related-content" id="related-content">
+      <h1>Related Content</h1>
+      <div class="content-view" id="related-grid"></div>
+    </div>
+
+    <footer class="fixed-footer">
+      <div class="disclaimer">
+        Disclaimer: We do not store any files on our servers; All the videos and
+        data are hosted on third-party services.
+      </div>
+    </footer>
+
+    <script src="detail.js" defer></script>
+  </body>
+</html>
