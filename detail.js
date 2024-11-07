@@ -1,27 +1,40 @@
 const API_KEY = "aad3fab1607b552befd9a2ac37e556af";
 const BASE_URL = "https://api.themoviedb.org/3";
-const IMG_BASE_URL = "https://image.tmdb.org/t/p/original";
+const IMG_BASE_URL = "https://image.tmdb.org/t/p/w200";
 
-// Show Loading Indicator
+
+// Function to show the loading spinner
 function showLoading() {
-  document.getElementById("loadingIndicator").style.display = "block";
-  document.getElementById("detail-content").style.display = "none";
+  const loadingOverlay = document.getElementById("loadingOverlay");
+  if (loadingOverlay) {
+    loadingOverlay.style.display = "flex"; // Show loading spinner overlay
+  }
 }
 
-// Hide Loading Indicator
+// Function to hide the loading spinner
 function hideLoading() {
-  document.getElementById("loadingIndicator").style.display = "none";
-  document.getElementById("detail-content").style.display = "block";
+  const loadingOverlay = document.getElementById("loadingOverlay");
+  if (loadingOverlay) {
+    loadingOverlay.style.display = "none"; // Hide loading spinner overlay
+  }
 }
 
-// Show Error Message
+// Function to show error messages
 function showError(message) {
   const errorMessage = document.getElementById("errorMessage");
-  errorMessage.textContent = message;
-  errorMessage.style.display = "block";
-  hideLoading();
+  if (errorMessage) {
+    errorMessage.textContent = message;
+    errorMessage.style.display = "block"; // Show error message
+  }
 }
 
+// Function to hide the error message
+function hideError() {
+  const errorMessage = document.getElementById("errorMessage");
+  if (errorMessage) {
+    errorMessage.style.display = "none"; // Hide error message
+  }
+}
 // Fetch Movie/Show Details
 async function fetchDetails(id, type) {
   showLoading();
@@ -35,7 +48,7 @@ async function fetchDetails(id, type) {
 
     const data = await response.json();
     displayDetails(data, type);
-    toggleTrailer(type, id,1);
+    provider(type, id,1);
   } catch (error) {
     console.error("Error fetching details:", error);
     showError("Failed to fetch details. Please try again later.");
@@ -57,9 +70,9 @@ function displayDetails(data, type) {
     day: "numeric",
   });
   const language = data.original_language
-    ? data.original_language.toUpperCase()
+    ? data.original_language.toLocaleUpperCase()
     : "N/A";
-  const overview = data.overview || "No overview available.";
+    const overview = data.overview || "No overview available.";
   const genres = data.genres
     ? data.genres.map((genre) => genre.name).join(", ")
     : "N/A";
@@ -74,24 +87,26 @@ function displayDetails(data, type) {
           data.episode_run_time ? data.episode_run_time[0] : "N/A"
         } min/episode`;
 
-  document.title = `${titleOrName} - Stream Now on JioStream`;
-  document.getElementById("detail-poster").src = posterUrl;
-  document.getElementById("detail-title").textContent = ` ${titleOrName}`;
-  document.getElementById("detail-meta").innerHTML = `<i class="fa-solid fa-calendar-days"></i> Release Date: ${releaseDate}`;
-  document.getElementById("detail-overview").innerHTML = `<i class="fa-solid fa-book-open"></i> Overview : ${overview}`;
-  document.getElementById("detail-language").innerHTML = `<i class="fa-solid fa-globe"></i> Language: ${language}`;
-  document.getElementById("detail-type").innerHTML = `<i class="fa-solid fa-film"></i> Type: ${type.toUpperCase()}`;
-  document.getElementById("detail-runtime").innerHTML = `<i class="fa-regular fa-clock"></i> Runtime: ${runtime}`;
-  document.getElementById("detail-genres").innerHTML = `<i class="fa-solid fa-tags"></i> Genres: ${genres}`;
-  document.getElementById("detail-ratings").innerHTML = `<i class="fa-solid fa-star"></i> Ratings: ${ratings}`;
-  document.getElementById("detail-popularity").innerHTML = `<i class="fa-solid fa-users"></i> Popularity: ${popularity}`;
-  document.getElementById("detail-budget").innerHTML = `<i class="fa-solid fa-money-bill-wave"></i> Budget: ${budget}`;
-  document.getElementById("detail-revenue").innerHTML = `<i class="fa-solid fa-chart-line"></i> Revenue: ${revenue}`;
+  
+        document.title = `${titleOrName} - Stream Now on JioStream`;
+        document.getElementById("detail-poster").src = posterUrl;
+        document.getElementById("detail-title").textContent = ` ${titleOrName}`;
+        document.getElementById("detail-meta").innerHTML = `<i class="fa-solid fa-calendar-days"></i> Release Date: ${releaseDate}`;
+        document.getElementById("detail-overview").innerHTML = `<i class="fa-solid fa-book-open"></i> Overview : ${overview}`;
+        document.getElementById("detail-language").innerHTML = `<i class="fa-solid fa-globe"></i> Language: ${language}`;
+        document.getElementById("detail-type").innerHTML = `<i class="fa-solid fa-film"></i> Type: ${type.toUpperCase()}`;
+        document.getElementById("detail-runtime").innerHTML = `<i class="fa-regular fa-clock"></i> Runtime: ${runtime}`;
+        document.getElementById("detail-genres").innerHTML = `<i class="fa-solid fa-tags"></i> Genres: ${genres}`;
+        document.getElementById("detail-ratings").innerHTML = `<i class="fa-solid fa-star"></i> Ratings: ${ratings}`;
+        document.getElementById("detail-popularity").innerHTML = `<i class="fa-solid fa-users"></i> Popularity: ${popularity}`;
+        document.getElementById("detail-budget").innerHTML = `<i class="fa-solid fa-money-bill-wave"></i> Budget: ${budget}`;
+        document.getElementById("detail-revenue").innerHTML = `<i class="fa-solid fa-chart-line"></i> Revenue: ${revenue}`;
+       document.getElementById("detail-overview").innerHTML = `<i class="fa-solid fa-book-open"></i> Overview : ${overview}`;
     
 }
 // Toggle Trailer Function based on selected dropdown value
-function toggleTrailer(type, id, sourceIndex) {
-  const trailerContainers = document.querySelectorAll(".trailer-container");
+function provider(type, id, sourceIndex) {
+  const trailerContainers = document.querySelectorAll(".p");
   trailerContainers.forEach((container, index) => {
     if (index + 1 === sourceIndex) {
       let trailerUrl = "";
@@ -260,7 +275,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const dropdownMenu = document.getElementById("dropdown-menu");
   dropdownMenu.addEventListener("change", function () {
     const selectedValue = dropdownMenu.value;
-    toggleTrailer(type, id, getTrailerIndex(selectedValue));
+    provider(type, id, getTrailerIndex(selectedValue));
   });
 });
 

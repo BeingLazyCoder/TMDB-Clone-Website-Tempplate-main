@@ -12,7 +12,7 @@
     </title>
     <link rel="preconnect" href="https://api.themoviedb.org" crossorigin />
     <link rel="preconnect" href="https://image.tmdb.org/t/p/" crossorigin />
-    <link rel="stylesheet" href="detail.css" />
+    <link rel="stylesheet" href="sty.css" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0-beta3/css/all.min.css"
@@ -20,20 +20,21 @@
     />
   </head>
   <body>
-    <header>
-      <nav>
-        <div class="logo">
-          <a href="index.html">JioStream</a>
-        </div>
-        <div class="nav-links">
-          <a href="index.html" class="active">Back To Home</a>
-        </div>
-      </nav>
-    </header>
-
-    <main class="main1">
-      <div id="loadingIndicator" style="display: none">Loading...</div>
-      <div id="errorMessage" style="display: none"></div>
+<div id="loadingOverlay" class="loading-overlay" style="display: none;">
+  <div class="spinner"></div>
+</div>
+<div id="errorMessage" class="error-message" style="display: none;"></div>
+    <main>
+      <header>
+        <nav>
+          <div class="logo">
+            <a href="index.html">JioStream</a>
+          </div>
+          <div class="nav-links">
+            <a href="index.html" class="active">Back To Home</a>
+          </div>
+        </nav>
+      </header>
       <div class="detail-content" id="detail-content">
         <div class="detail-info">
           <img
@@ -63,122 +64,69 @@
           </div>
         </div>
       </div>
-        <div class="trailer-section">
-        <!-- Dropdown Menu -->
-        <div class="filter-navbar">
-          <div class="filter-box">
-            <label for="dropdown-menu">Select Provider</label>
-            <select class="filter-select" id="dropdown-menu">
-              <option
-                class="watch-trailer-option active"
-                value="Vidsrc 4K"
-                id="watch-trailer-btn"
-              >
-                <i class="fa-solid fa-play"></i>Multi Language
-              </option>
-              <option
-                class="watch-trailer-option"
-                value="HnEmbed"
-                id="watch-trailer-btn2"
-              >
-                <i class="fa-solid fa-play"></i> G-Drive
-              </option>
-              <option
-                class="watch-trailer-option"
-                value="MultiEmbed"
-                id="watch-trailer-btn3"
-              >
-                <i class="fa-solid fa-play"></i> Multi Embed
-              </option>
-              <option
-                class="watch-trailer-option"
-                value="VidLink"
-                id="watch-trailer-btn4"
-              >
-                <i class="fa-solid fa-play"></i> HD Server - Ads
-              </option>
-              <option
-                class="watch-trailer-option"
-                value="EmbedSoap"
-                id="watch-trailer-btn5"
-              >
-                <i class="fa-solid fa-play"></i> EmbedSoap -Ads
-              </option>
-              <option
-                class="watch-trailer-option"
-                value="AutoEmbed"
-                id="watch-trailer-btn6"
-              >
-                <i class="fa-solid fa-play"></i> Auto Embed
-              </option>
-              <option
-                class="watch-trailer-option"
-                value="Smashy Stream"
-                id="watch-trailer-btn7"
-              >
-                <i class="fa-solid fa-play"></i> Smashy Stream
-              </option>
-              <option
-                class="watch-trailer-option"
-                value="Embed.su"
-                id="watch-trailer-btn8"
-              >
-                <i class="fa-solid fa-play"></i> Best UI - Ads
-              </option>
-              <option
-                class="watch-trailer-option"
-                value="DirectStream"
-                id="watch-trailer-btn9"
-              >
-                <i class="fa-solid fa-play"></i> Multi Server
-              </option>
-              <option
-                class="watch-trailer-option"
-                value="Moviee"
-                id="watch-trailer-btn10"
-              >
-                <i class="fa-solid fa-play"></i> CloudStream Pro
-              </option>
-              <option
-                class="watch-trailer-option"
-                value="MovieApi"
-                id="watch-trailer-btn11"
-              >
-                <i class="fa-solid fa-play"></i> Multi Lang - Ads
-              </option>
-            </select>
-          </div>
+      <!-- Dropdown Menu -->
+      <div class="filter-navbar">
+        <div class="filter-box">
+          <label for="dropdown-menu">Select Provider</label>
+          <select class="filter-select" id="dropdown-menu">
+            <option class="src active" value="Vidsrc 4K">
+              <i class="fa-solid fa-play"></i>Multi Language
+            </option>
+            <option value="HnEmbed">
+              <i class="fa-solid fa-play"></i> G-Drive
+            </option>
+            <option value="MultiEmbed">
+              <i class="fa-solid fa-play"></i> Multi Embed
+            </option>
+            <option value="VidLink">
+              <i class="fa-solid fa-play"></i> HD Server - Ads
+            </option>
+            <option value="EmbedSoap">
+              <i class="fa-solid fa-play"></i> EmbedSoap -Ads
+            </option>
+            <option value="AutoEmbed">
+              <i class="fa-solid fa-play"></i> AutoEmbed-Hindi
+            </option>
+            <option value="Smashy Stream">
+              <i class="fa-solid fa-play"></i> Smashy Stream
+            </option>
+            <option  value="Embed.su">
+              <i class="fa-solid fa-play"></i> Best UI - Ads
+            </option>
+            <option value="DirectStream">
+              <i class="fa-solid fa-play"></i> Multi Server
+            </option>
+            <option value="Moviee">
+              <i class="fa-solid fa-play"></i> CloudStream Pro
+            </option>
+            <option value="MovieApi">
+              <i class="fa-solid fa-play"></i> Multi Lang - Ads
+            </option>
+          </select>
         </div>
-      
-      
-      
-      <div class="trailer-container" id="trailer-container"></div>
-      <div class="trailer-container" id="trailer-container2"></div>
-      <div class="trailer-container" id="trailer-container3"></div>
-      <div class="trailer-container" id="trailer-container4"></div>
-      <div class="trailer-container" id="trailer-container5"></div>
-      <div class="trailer-container" id="trailer-container6"></div>
-      <div class="trailer-container" id="trailer-container7"></div>
-      <div class="trailer-container" id="trailer-container8"></div>
-      <div class="trailer-container" id="trailer-container9"></div>
-      <div class="trailer-container" id="trailer-container10"></div>
-      <div class="trailer-container" id="trailer-container11"></div>
       </div>
+      <div class="p" id="p"></div>
+      <div class="p" id="p2"></div>
+      <div class="p" id="p3"></div>
+      <div class="p" id="p4"></div>
+      <div class="p" id="p5"></div>
+      <div class="p" id="p6"></div>
+      <div class="p" id="p7"></div>
+      <div class="p" id="p8"></div>
+      <div class="p" id="p9"></div>
+      <div class="p" id="p10"></div>
+      <div class="p" id="p11"></div>
+      <div class="rc" id="rc">
+        <h1>Related Content</h1>
+        <div class="cv" id="related-grid"></div>
+      </div>
+      <footer class="fixed-footer">
+        <div class="disclaimer">
+          Disclaimer: We do not store any files on our servers; All the videos and
+          data are hosted on third-party services.
+        </div>
+      </footer>
     </main>
-    
-
-    <div class="related-content" id="related-content">
-      <h1>Related Content</h1>
-      <div class="content-view" id="related-grid"></div>
-    </div>
-
-    <footer class="fixed-footer">
-      <div class="disclaimer">
-        Disclaimer: We do not store any files on our servers; All the videos and
-        data are hosted on third-party services.
-      </div>
-    </footer>
-
     <script src="detail.js" defer></script>
   </body>
 </html>

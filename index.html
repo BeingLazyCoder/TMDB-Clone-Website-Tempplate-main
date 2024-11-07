@@ -11,8 +11,18 @@
   <link href=https://api.themoviedb.org rel=preconnect crossorigin><link
   href=https://image.tmdb.org rel=preconnect crossorigin>
   <link href="main.js" rel="preconnect" crossorigin />
-  <link rel="stylesheet" href="main.css" />
+  <link rel="stylesheet" href="sty.css" />
   <link rel="preconnect" href="main.css" />
+  <body>
+     <!-- Loading Spinner -->
+<div id="loadingOverlay" class="loading-overlay" style="display: none;">
+  <div class="spinner"></div>
+</div>
+
+<!-- Error Message -->
+<div id="errorMessage" class="error-message" style="display: none;"></div>
+
+  <main>
   <header>
     <nav>
       <div class="logo">
@@ -29,13 +39,12 @@
       </div>
     </nav>
   </header>
+  
   <div class="filter-navbar">
     <select id="mediaSelect" class="filter-select">
       <option value="movie" selected>Movie</option>
       <option value="tv">TV Show</option>
     </select>
-
-   
     <select class="filter-select" id="sortFilter">
       <option value="">Sort By</option>
     </select>
@@ -49,24 +58,17 @@
       <option value="">Language</option>
     </select>
   </div>
-  <main>
-    <div class="content-wrapper">
-      <div id="loadingIndicator" style="display: none">Loading...</div>
-      <div id="errorMessage" style="display: none"></div>
-      <div class="main-content">
-        <div class="content-view" id="content-view"></div>
-      </div>
-    </div>
+      <div class="cv" id="cv"></div>
   </main>
+  <button id="Btn" onclick="scrollToTop()">
+    <div class="icon-inner">Back to Top</div>
+  </button>
   <footer class="fixed-footer">
     <div class="disclaimer">
       Disclaimer: We do not store any files on our servers; All the videos and
-      data are hosted on third-party services. Please read and understand the
-      terms and conditions.
+      data are hosted on third-party services.
     </div>
   </footer>
-  <button id="backToTopBtn" onclick="scrollToTop()">
-    <div class="icon-inner">Back to Top</div>
-  </button>
   <script src="main.js" defer></script>
+  </body>
 </html>

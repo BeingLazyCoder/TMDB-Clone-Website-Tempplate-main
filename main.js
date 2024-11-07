@@ -11,11 +11,11 @@ let currentType = "movie",
   currentLanguage = "",
   isLoading = false,
   hasMoreContent = true;
-
+// Function to fetch data with loading indicator and error handling
 async function fetchData(pageIncrement = 0) {
-  if (isLoading || !hasMoreContent) return;
+  if (isLoading || !hasMoreContent) return; // Prevent simultaneous requests
   isLoading = true;
-  showLoading();
+  showLoading(); // Show loading spinner when fetching data
 
   const url = `${BASE_URL}/discover/${currentType}?api_key=${API_KEY}&page=${
     currentPage + pageIncrement
@@ -23,25 +23,71 @@ async function fetchData(pageIncrement = 0) {
 
   try {
     const response = await fetch(url);
-    if (!response.ok)
+    
+    // Check if the response is ok (status 200-299), else throw error
+    if (!response.ok) {
       throw new Error(`Network response was not ok: ${response.statusText}`);
+    }
+
     const data = await response.json();
+
+    // Display the results if data is available
     displayResults(data.results, pageIncrement === 0);
+    
+    // Update pagination details
     hasMoreContent = data.page < data.total_pages;
     currentPage = data.page;
+
   } catch (error) {
-    console.error("Error:", error);
-    showError("");
+    console.error("Error fetching data:", error);
+    
+    // Show error message to the user
+    showError("Something went wrong while fetching data. Please try again.");
+    
   } finally {
-    isLoading = false;
-    hideLoading();
+    isLoading = false;  // Mark loading as finished
+    hideLoading();      // Hide the loading spinner
   }
 }
+
+// Function to show the loading spinner
+function showLoading() {
+  const loadingOverlay = document.getElementById("loadingOverlay");
+  if (loadingOverlay) {
+    loadingOverlay.style.display = "flex"; // Show loading spinner overlay
+  }
+}
+
+// Function to hide the loading spinner
+function hideLoading() {
+  const loadingOverlay = document.getElementById("loadingOverlay");
+  if (loadingOverlay) {
+    loadingOverlay.style.display = "none"; // Hide loading spinner overlay
+  }
+}
+
+// Function to show error messages
+function showError(message) {
+  const errorMessage = document.getElementById("errorMessage");
+  if (errorMessage) {
+    errorMessage.textContent = message;
+    errorMessage.style.display = "block"; // Show error message
+  }
+}
+
+// Function to hide the error message
+function hideError() {
+  const errorMessage = document.getElementById("errorMessage");
+  if (errorMessage) {
+    errorMessage.style.display = "none"; // Hide error message
+  }
+}
+
 function scrollToTop() {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 function handleScroll() {
-  const e = document.getElementById("backToTopBtn");
+  const e = document.getElementById("Btn");
   window.innerHeight + window.scrollY >= document.body.offsetHeight - 200 &&
     !isLoading &&
     hasMoreContent &&
@@ -50,7 +96,7 @@ function handleScroll() {
 }
 
 function displayResults(results, clear = true) {
-  const contentView = document.getElementById("content-view");
+  const contentView = document.getElementById("cv");
   if (!contentView) return;
 
   if (clear) {
@@ -195,7 +241,7 @@ function hideSearchResults() {
 }
 
 function handleScroll() {
-  const backToTopBtn = document.getElementById("backToTopBtn");
+  const Btn = document.getElementById("Btn");
   if (
     window.innerHeight + window.scrollY >= document.body.offsetHeight - 200 &&
     !isLoading &&
@@ -203,7 +249,7 @@ function handleScroll() {
   ) {
     fetchData(1);
   }
-  backToTopBtn.style.display = window.scrollY > 300 ? "block" : "none";
+  Btn.style.display = window.scrollY > 300 ? "block" : "none";
 }
 // Set default value to "movie" on page load
 const mediaSelect = document.getElementById("mediaSelect");
@@ -280,19 +326,45 @@ function populateYearFilter() {
     }
   }
 }
-
 async function fetchLanguages() {
   const languageFilter = document.getElementById("languageFilter");
   if (languageFilter) {
     try {
       const response = await fetch(
-        `https://api.themoviedb.org/3/configuration/languages?api_key=${API_KEY}`
+        `${BASE_URL}/configuration/languages?api_key=${API_KEY}`
       );
       if (!response.ok)
         throw new Error("Network response was not ok " + response.statusText);
       const data = await response.json();
+
+      // List of languages to prioritize (case-sensitive for matching)
+      const prioritizedLanguages = [
+        "English", "Hindi", "Tamil", "Telugu", "Bhojpuri"
+      ];
+
+      // Separate prioritized languages from others
+      const prioritized = [];
+      const rest = [];
+
+      data.forEach(language => {
+        if (prioritizedLanguages.includes(language.english_name)) {
+          prioritized.push(language);
+        } else {
+          rest.push(language);
+        }
+      });
+
+      // Sort the remaining languages alphabetically
+      rest.sort((a, b) => a.english_name.localeCompare(b.english_name));
+
+      // Combine prioritized languages with the rest
+      const sortedLanguages = [...prioritized, ...rest];
+
+      // Clear the existing options and set the default option
       languageFilter.innerHTML = '<option value="">Language</option>';
-      data.forEach((language) => {
+
+      // Add the sorted options
+      sortedLanguages.forEach((language) => {
         const option = document.createElement("option");
         option.value = language.iso_639_1;
         option.textContent = language.english_name;
@@ -311,8 +383,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const genreFilter = document.getElementById("genreFilter");
   const yearFilter = document.getElementById("yearFilter");
   const languageFilter = document.getElementById("languageFilter");
-  const movieToggle = document.getElementById("movieToggle");
-  const tvToggle = document.getElementById("tvToggle");
 
   searchInput.addEventListener("input", (e) => {
     clearTimeout(searchTimeout);
@@ -356,3 +426,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.addEventListener("scroll", handleScroll);
 });
+// Show the loading spinner
+function showLoading() {
+  const loadingOverlay = document.getElementById("loadingOverlay");
+  if (loadingOverlay) {
+    loadingOverlay.style.display = "flex"; // Show spinner
+  }
+}
+
+// Hide the loading spinner
+function hideLoading() {
+  const loadingOverlay = document.getElementById("loadingOverlay");
+  if (loadingOverlay) {
+    loadingOverlay.style.display = "none"; // Hide spinner
+  }
+}
